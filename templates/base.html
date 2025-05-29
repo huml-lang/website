@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  {% if section.title %}
+    <title>{{ section.title }}</title>
+  {% elif page.title %}
+    <title>{{ page.title }}</title>
+  {% elif config.extra.default_title %}
+    <title>{{ config.extra.default_title }}</title>
+  {% endif %}
+  
+  {% block rss %}
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ get_url(path="rss.xml", trailing_slash=false) }}">
+  {% endblock %}
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:image" content="{{ get_url(path="/static/thumb.png", cachebust=true) }}">
+  <link rel="shortcut icon" href="{{ get_url(path="/static/favicon.png" ) }}" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..600;1,14..32,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path="/static/base.css", cachebust=true) }}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path="/static/style.css", cachebust=true) }}" />
+</head>
+
+<body>
+<div class="container main">
+  <header class="header row">
+    <div class="col-2 col-fix">
+      <div class="logo"><a href="/"><img src="/static/logo.svg" alt="{{ config.extra.default_title }}" /></a></div>
+    </div>
+    <nav class="col-10 col-fix nav">
+      <input type="checkbox" id="nav-toggle" />
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle nav">☰</label>
+
+      <div class="items">
+        <a href="{{ get_url(path="@/specification.md") }}">Specification</a>
+        <a href="{{ get_url(path="@/examples.md") }}">Examples</a>
+      </div>
+    </nav>
+  </header>
+  <section class="section content">
+    {% block content %} {% endblock %}
+  </section>
+  
+  <footer class="footer"><a href="https://nadh.in">Kailash Nadh</a> / Website content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/"> CC BY-SA 4.0</a></footer>
+</div>
+<script>
+(() => {
+  document.querySelectorAll('a[data-copy-clipboard]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const pre = [...document.querySelectorAll('pre')]
+        .reverse()
+        .find(el => el.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING);
+      if (pre) {
+        navigator.clipboard.writeText(pre.innerText);
+        const originalText = link.innerText;
+        link.innerText = 'Copied ✓';
+        setTimeout(() => link.innerText = originalText, 2000);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

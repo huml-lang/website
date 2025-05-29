@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="intro">
+  <h1>Human-oriented Markup Language</h1>
+  <p>HUML is a simple, strict, serialization language for documents, datasets, and configuration.
+    It prioritizes form for human-redability. It is inspired by YAML, but without its complexity, ambiguity, and pitfalls.
+  </p>
+</div>
+
+<main class="content">
+  <section class="code">
+    {% set snippet = get_page(path="code.md") %}
+    {{ snippet.content | safe }}
+  </section>
+</main>
+
+{% endblock content %}
