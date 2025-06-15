@@ -10,13 +10,13 @@
 html, body {
     margin: 0;
     padding: 0;
-    font-size: 20px;
+    font-size: 18px;
 }
 body {
     background: #fff;
     font-family: "Inter", sans-serif;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.5;
     color: var(--black);
 }
 
@@ -80,8 +80,8 @@ table {
     }
 
 code {
-    padding: 0 10px;
-    border-radius: 10px;
+    padding: 0 6px;
+    border-radius: 5px;
 }
     pre {
         border-radius: 10px;
@@ -94,7 +94,7 @@ code {
         max-height: 50vh;
     }
     code:not(pre code) {
-        background: #edfbf3;
+        background: #ECEFFF;
         display: inline-block;
     }
 sup a {
@@ -168,7 +168,7 @@ button, .button {
     }
 
 .logo img {
-    max-height: 36px;
+    max-height: 54px;
 }
 
 .intro {
