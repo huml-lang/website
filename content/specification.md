@@ -4,17 +4,17 @@ title = "HUML specification"
 
 # HUML specification
 
-HUML is a machine-readable markup language with a focus on readability by humans. It is heavily inspired by YAML and shares significant similarities, but eliminates its complexities, ambiguities, and footguns. It is strict not just with indendentation, but aspects such as preceding and trailing spaces, specifically to ensure consistent form across contexts.
+HUML is a machine-readable markup language with a focus on readability by humans. It is heavily inspired by YAML and shares significant similarities, but without its complexities, ambiguities, and footguns. It is strict about indendentation and spaces, specifically to ensure consistent form across contexts.
 
-HUML is ideal for documents, datasets, and configuration files amongst other things.
+HUML is ideal for documents, datasets, and configuration files.
 
 ## Motivation
 
 - HUML was primarily born out of the numerous frustrations with YAML, where one easy-to-miss, accidental indentation can dangerously change the semantics of a document.
-- JSON is universal, but lacks comments, is verbose, and is not strict to enforce form for readability.
+- JSON is universal, but lacks comments, does not have a strict form to for consistent readability across contexts, and has comma related ambiguities.
 - Other popular markup languages such as TOML and HCL are configuration oriented. NestedText is an interesting approach, but is too primitive to be suitable for wider usecases.
 
-Ultimately, a new markup language is a subjective endevaour as evidenced by YAML's original "*Yet Another ...*" name from 2001. HUML borrows facets from many existing languages with the primary focus on enforcing human redability and accessibility.
+Ultimately, a new markup language is a subjective endevaour (it was even in 2001, as evidenced by YAML's original name, "*Yet Another ...*"). HUML looks like YAML, but borrows characteristics from many existing languages with the primary focus on enforcing human redability and accessibility.
 
 
 ---
@@ -26,7 +26,7 @@ Ultimately, a new markup language is a subjective endevaour as evidenced by YAML
 * UTF-8 encoding.
 * Line breaks: Unix-style (`\n`).
 * Blank lines are ignored.
-* Optional version declaration at the top: `%HUML <version>` (e.g., `%HUML 0.1`).
+* Optional version declaration at the top: `%HUML <version>` (e.g., `%HUML 0.1`). If this is not present, a parser is to apply the latest specification.
 
 ### Data types
 
@@ -46,10 +46,10 @@ HUML supports scalar (string, number, bool, null) and vector (list, dict) dataty
 | | **Hex**, begins with `0x` | `0x1A`, `0xCAFE` |
 | | **Octal**, begins with `0o` | `0o12`, `0o755` |
 | | **Binary**, begins with `0b` | `0b1010`, `0b11011001` |
-| | Numbers can have arbitrary underscore characters for readability. They are simply ignored while parsing. | `1_00_0000` |
+| | Numbers can have arbitrary underscore characters for readability, which are simply ignored while parsing. | `1_00_0000` |
 | **Boolean** | True or false values | `true`, `false` |
 | **Null** | Null value | `null` |
-| **List** | Array of arbitrary datatypes. Definition can be inline or multi-line | `1, 2, "three"` |
+| **List** | Array of arbitrary datatypes. Definition can be inline or multi-line. Multi-line items are prefixed with a `-` like a bullet point list. | `1, 2, "three"` |
 |          | `[]` is a special signifier used to denote an empty list | `items: []` |
 | **Dict** | Unordered map of key-value pairs. Keys are strings and values can be of arbitrary data types. | `hello: "world", num: 123` |
 |          | Definition can be inline or multi-line. | |
@@ -67,9 +67,12 @@ HUML supports scalar (string, number, bool, null) and vector (list, dict) dataty
 
 ### Spaces
 The presence of space characters are strictly controlled.
+* Trailing spaces are not allowed on any line, including empty lines and comment-only lines, except for content within multi-line strings.
+* Comments `#` should be immediately followed by one space.
+* Preceding spaces are allowed a comment's `#`.
 * Only a single space is allowed after the indicator (`:`, `::`, `-`) and the subsequent value.
-* Trailing spaces on lines are not allowed anywhere except in content lines inside multi-line strings.
-* Preceding spaces are allowed before comments, anywhere `#` appears.
+* For multi-line vectors, `::` should be immediately followed by a line break, unless it is a comment starting with `#`.
+* In inline lists, commas should not have preceding spaces and should be followed by exactly one space. Eg: `1, 2, 3`
 
 ------------
 
@@ -218,6 +221,23 @@ nested_dict::
 
 empty_dict: {}
 ```
+
+### Why `::`?
+The indicator `::` immediately makes it apparent that what follows is a vector, to human readers and parsers. Less guessing.
+
+It also permits lists to be defined inline without other indicators or enclosures.
+
+```huml
+# This is a list with one item: key = ["one"]
+key:: "one"
+
+# Without :: it is not possible to represent an inline list
+# without another indicator or enclosures such as []
+# Here, key = "one"
+key: "one"
+
+```
+
 
 ### Key-less documents
 
