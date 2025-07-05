@@ -4,19 +4,18 @@ title = "HUML specification"
 
 # HUML specification
 
-HUML is a machine-readable markup language with a focus on readability by humans. It is inspired by how YAML appears and shares many similarities, but without its complexities, ambiguities, and dangerous footguns. It is very strict about indendentation and spaces specifically to ensure consistent form across contexts for readability.
+HUML is a machine-readable markup language with a focus on readability by humans. It borrows YAML's visual appearance, but avoids its complexities, ambiguities, and dangerous footguns. It is very strict about indentation and spaces specifically to ensure consistent form across contexts for readability.
 
 HUML is tailored for configuration, documents, and datasets.
-
 
 ## Motivation
 
 - HUML was primarily born out of the numerous frustrations with YAML, where one easy-to-miss, accidental indentation change can dangerously alter the semantics of a document.
-- JSON is universal, but lacks comments, does not have a strict form to for consistent readability across contexts, has comma related ambiguities, and bracket-matching woes which makes human-editing difficult.
-- Other popular markup languages such as TOML and HCL are configuration oriented. NestedText is an interesting approach, but is too primitive to be suitable for wider usecases.
+- JSON is universal, but lacks comments, does not have a strict form for consistent readability across contexts, has comma-related ambiguities, and bracket-matching woes which make human editing difficult.
+- Other popular markup languages such as TOML and HCL are configuration-oriented. NestedText is an interesting approach, but is too primitive to be suitable for wider use cases.
 - Of these, YAML is the one that comes closest to indicating structure and hierarchy visually.
 
-Ultimately, a new markup language is a subjective endevaour (it was even in 2001, as evidenced by YAML's original name, "*Yet Another ...*"). HUML looks like YAML, but borrows characteristics from many existing languages with the primary focus on enforcing human redability and consistency across contexts.
+Ultimately, a new markup language is a subjective endeavor (it was even in 2001, as evidenced by YAML's original name, "*Yet Another ...*"). HUML looks like YAML, but borrows characteristics from many existing languages with the primary focus on enforcing human readability and consistency across contexts.
 
 But really, why? Why not!
 
@@ -24,10 +23,9 @@ But really, why? Why not!
 - Human readability and editability.
 - Visual comprehension of data structures and hierarchies.
 - Avoid footguns and ambiguities in syntax and data types.
-- As few ways of representing something as possible for consistency.
+- As few ways of representing something as possible to ensure consistency.
 - Strictness for form and consistency.
 - Avoid the need for visual formatters.
-
 
 ---
 
@@ -42,34 +40,33 @@ But really, why? Why not!
 
 ### Data types
 
-HUML supports scalar (string, number, bool, null) and vector (list, dict) datatypes. 
+HUML supports scalar (string, number, bool, null) and vector (list, dict) data types.
 
 | Type | Description | Example |
 |------|-------------|----------|
-| **String** | Always quoted | `"foo"`, `"Hello World"` |
-| | Single-line strings, all `"` and `\` should be escaped. | `\"`, `\\` |
-| | Multi-line strings wrapped in ``` (three backticks) preserve preceding spaces and `"""` do not.| |
-| | Characters inside a multi-line string do not need be escaped and `\n`, `\t` are treated literally.| |
+| **String** | Always quoted. | `"foo"`, `"Hello World"` |
+| | Single-line strings: all `"` and `\` must be escaped. | `\"`, `\\` |
+| | Multi-line strings are wrapped in ```` (three backticks) to preserve spaces or `"""` (three double quotes) to strip them. | |
+| | Characters inside a multi-line string do not need to be escaped, and `\n`, `\t` are treated literally. | |
 | **Number** | **Integer** | `123`, `+123`, `-123` |
-| | **Float** (64 bit, IEEE 754 double precision floating point) | `3.14`, `-0.5` |
+| | **Float** (64-bit, IEEE 754 double-precision floating-point) | `3.14`, `-0.5` |
 | | **Special values**. The special numerical values are unquoted. | `nan`, `inf`, `+inf`, `-inf` |
 | | *Notations* | |
-| | **Exponent**, denoted with lowercase `e` | `1e10`, `6.022e23` |
+| | **Exponent**, denoted by a lowercase `e` | `1e10`, `6.022e23` |
 | | **Hex**, begins with `0x` | `0x1A`, `0xCAFE` |
 | | **Octal**, begins with `0o` | `0o12`, `0o755` |
 | | **Binary**, begins with `0b` | `0b1010`, `0b11011001` |
 | | Numbers can have arbitrary underscore characters for readability, which are simply ignored while parsing. | `1_00_0000` |
-| **Boolean** | True or false values | `true`, `false` |
-| **Null** | Null value | `null` |
-| **List** | Array of arbitrary datatypes. Definition can be inline or multi-line. Multi-line items are prefixed with a `-` like a bullet point list. | `1, 2, "three"` |
+| **Boolean** | True or false values. | `true`, `false` |
+| **Null** | Null value. | `null` |
+| **List** | Array of arbitrary data types. | `1, 2, "three"` |
 |          | Definition can be inline or multi-line. |  |
-|          | Multi-line items are prefixed with a `-` like a bullet point list. |  |
-|          | `[]` is a special signifier used to denote an empty vector list. Eg: `items:: []` | `[]` |
+|          | Multi-line items are prefixed with a `-`, like a bullet point list. |  |
+|          | `[]` is a special signifier used to denote an empty list, e.g., `items:: []`. | `[]` |
 | **Dict** | Unordered map of key-value pairs. Keys are strings and values can be of arbitrary data types. | `hello: "world", num: 123` |
 |          | Definition can be inline or multi-line. | |
 |          | Duplicate keys inside a dict are not allowed. | |
-|          | `{}` is a special signifier used to denote an empty vector dict. Eg: `items:: {}` | `{}` |
-
+|          | `{}` is a special signifier used to denote an empty dict, e.g., `items:: {}`. | `{}` |
 
 ------------
 
@@ -80,18 +77,18 @@ HUML supports scalar (string, number, bool, null) and vector (list, dict) dataty
 ------------
 
 ### Spaces
-The presence of space characters are strictly controlled.
+The presence of space characters is strictly controlled.
 * Trailing spaces are not allowed on any line, including empty lines and comment-only lines, except for content within multi-line strings, where they are treated as content.
-* The comment marker `#` should be immediately followed by one space, before the comment contents. Eg: `# Comment` and not `#Comment`.
-* Only a single space is allowed after the indicators `:`, `::`, `-` and the subsequent value.
-* For multi-line vectors, `::` should be immediately followed by a line break, unless it is a comment starting with `#`.
-* In inline lists, commas should not have preceding spaces and should be followed by exactly one space. Eg: `1, 2, 3`
+* The comment marker `#` must be immediately followed by one space before the comment contents, e.g., `# Comment` and not `#Comment`.
+* Only a single space is allowed after the indicators `:`, `::`, and `-` and before the subsequent value.
+* For multi-line vectors, `::` must be immediately followed by a line break, unless it is a comment starting with `#`.
+* In inline lists, commas must not have preceding spaces and must be followed by exactly one space, e.g., `1, 2, 3`.
 
 ------------
 
 ### Comments
 
-* Lines beginning with `#` are comments. Comments anywhere can have preceding spaces, but not trailing spaces.
+* Lines beginning with `#` are comments. Comments can have preceding spaces, but not trailing spaces.
 * After `#`, there must be at least one space before any other character.
 
 ```huml
@@ -103,18 +100,18 @@ key: "value"         # Inline comment with a lot of preceding spaces.
 
 ### Keys and values
 
-- Keys are case-sensitive unicode strings.
-  - If  alphanumeric `a-zA-Z0-9_-`, no need to be quoted.<br />Eg: `foo: 123`, `foo-bar: "yes"`
-  - If any other characters including spaces are present, keys have to be quoted<br />Eg: `foo: 123`,  `"foo bar": 123, "ഭൂമി": "Earth"`
-- Scalar keys are denoted with the key followed by a single colon `:`
-- Vector keys are denoted with the key followed by double colons `::`
-- No spaces are allowed before the `:` or `::`, and they need to be followed by exacty one space before the value.
+- Keys are case-sensitive Unicode strings.
+  - If alphanumeric `a-zA-Z0-9_-`, they do not need to be quoted.<br />e.g., `foo: 123`, `foo-bar: "yes"`
+  - If any other characters, including spaces, are present, keys must be quoted.<br />e.g., `foo: 123`, `"foo bar": 123, "ഭൂമി": "Earth"`
+- Scalar keys are denoted by the key followed by a single colon (`:`).
+- Vector keys are denoted by the key followed by double colons (`::`).
+- No spaces are allowed before the `:` or `::`, and they must be followed by exactly one space before the value.
 
 ------------
 
 ### Scalars
 
-Scalars (string, number, boolean, null) are denoted with single colon `:`
+Scalars (string, number, boolean, null) are denoted by a single colon (`:`).
 
 ```huml
 key: "value"
@@ -125,10 +122,10 @@ type: null
 
 ### Multi-line strings
 
-In multi-line string blocks, no escaping is necessary. Characters are treated literally. Multi-line strings can be defined in two different ways, with three backticks (literal, preserves preceding and trailing spaces) or three double quotes (strip preceding and trailing spaces). As the beginning and ending of the markers can be derived from the indentation, there is no need to escape the three double qutoes and backticks themselves in the string content.
+In multi-line string blocks, no escaping is necessary. Characters are treated literally. Multi-line strings can be defined in two different ways. As the beginning and ending markers can be derived from the indentation, there is no need to escape the three double quotes or backticks themselves in the string content.
 
-#### 1) Preserve spaces ******` ``` `******
-All preceding and trailing spaces are preserved starting from the minimum required indenation level for each line, which is 2 spaces from the beginning of the key.
+#### 1) Preserve spaces: ******` ``` `******
+The content block must be indented by one level (2 spaces) relative to the key. These initial 2 spaces on each line are stripped. All other preceding and all trailing spaces are preserved as content.
 
 ````huml
 description: ```
@@ -148,9 +145,8 @@ Line 1
         All spaces are preserved.
 ```
 
-#### 2) Ignore preceding and trailing spaces ******`"""`******
-All preceding and trailing spaces around the lines are ignored.
-
+#### 2) Ignore preceding and trailing spaces: ******`"""`******
+All leading and trailing whitespace on each line of content is stripped.
 
 ```huml
 description: """
@@ -173,13 +169,13 @@ All spaces are ignored.
 
 ### Vectors
 
-Vectors are denoted with double colons `::` and can be lists (arrays) or dicts (unordered key-value maps or dictionaries).
+Vectors are denoted by double colons (`::`) and can be lists (arrays) or dicts (unordered key-value maps or dictionaries).
 
 #### Lists
 
 * **Inline:** Comma-separated without trailing commas. Inline list items can only be scalar values and cannot contain vectors or nesting.
-* **Multi-line:** A hyphen `-` denotes a list item, indented exactly by 2 spaces from the beginning of the parent key. Multi-line lists can be nested and can contain vectors.
-* **Empty list:** A vector can be marked as an empty list with the special value `[]`
+* **Multi-line:** A hyphen `-` denotes a list item, indented by 2 spaces relative to its parent. Multi-line lists can be nested and can contain vectors.
+* **Empty list:** A vector can be marked as an empty list with the special value `[]`.
 
 ```huml
 inline_list:: 1, 2, "three"
@@ -189,7 +185,7 @@ multiline_list::
   - 2
   - "three"
 
-# [1, 2, "threee", [1, 2, "three"]]
+# [1, 2, "three", [1, 2, "three"]]
 nested_list::
   - 1
   - 2
@@ -208,15 +204,14 @@ list_of_dicts::
      two: 2
      foo: "baz"
 
-
 empty_list:: []
 ```
 
 #### Dicts
 
-* **Inline:** Keys inside a dict are `key: value` pairs comma separated without trailing commas. Inline dicts can only contain scalar key-values and cannot contain vectors or nesting.
-* **Multiline:** Keys inside a dict `key: value` on a line indented exactly by 2 spaces from the beginning of the parent key. Multi-line dicts can be nested and can contain vectors.
-* **Empty dict:** A vector can be marked as an empty dict with the special value `{}`
+* **Inline:** Keys inside a dict are `key: value` pairs, comma-separated without trailing commas. Inline dicts can only contain scalar key-values and cannot contain vectors or nesting.
+* **Multi-line:** Keys inside a dict are `key: value` on a line indented by 2 spaces relative to its parent. Multi-line dicts can be nested and can contain vectors.
+* **Empty dict:** A vector can be marked as an empty dict with the special value `{}`.
 
 ```huml
 inline_dict:: one: 1, foo: "bar"
@@ -233,12 +228,12 @@ nested_dict::
     two: 2
     foo: "baz"
 
-empty_dict: {}
+empty_dict:: {}
 ```
 
 ------------------
 
-# Examples
+# Example
 
 ## Why `::`?
 
@@ -261,7 +256,6 @@ foo::
 foo::
   bar: "baz"
   one: 1
-
 ```
 
 2) It permits vectors to be defined inline without additional syntax such as `[ ... ]` or `{ ... }`. Opening and closing enclosures bring in complexities of keeping track of nesting and balancing closures, both for humans and parsers.
@@ -271,20 +265,20 @@ foo::
 key:: "one"
 
 # Without :: it is not possible to represent an inline list
-# without an enclosure such as [ ... ]. Eg: key: ["one"]
+# without an enclosure such as [ ... ]. For example, key: ["one"]
 # Here, key = "one"
 key: "one"
 ```
 
-3) It avoid several ambiguities. In YAML, for example:
+3) It avoids several ambiguities. In YAML, for example:
 ```yaml
 # Although this looks like a list, it is a string: foo = "1, 2, 3"
 foo: 1, 2, 3
 
-# Square brackets is a list.
+# Square brackets denote a list.
 foo: [1, 2, 3]
 
-# Square brackets over multiple lines is also a list.
+# Square brackets over multiple lines are also a list.
 foo: [
 1,
  2,
@@ -306,10 +300,9 @@ foo:
   - 3
 ```
 
-
 ## Key-less documents
 
-An empty HUML document is evaluated as an empty dict by default. However, a document does not need to be a dict at the root. Similar to JSON, it can be a key-less scalar or a vector list.
+An empty HUML document is evaluated as an empty dict by default. However, a document does not need to be a dict at the root. Similar to JSON, it can be a key-less scalar or a list.
 
 ```huml
 true
@@ -408,7 +401,7 @@ application_config::
   data_sources::
     - "primary_db_connection_string"
     - "secondary_api_endpoint_url"
-    - 192.168.1.100 # IP address as string, or could be number
+    - "192.168.1.100" # IP address as a string
     - :: # A list of lists
       - "alpha"
       - "beta"
@@ -456,4 +449,5 @@ user_preferences::
   theme: "solarized_dark"
   font_size_pt: 12
   show_tooltips: true
+
 ```
