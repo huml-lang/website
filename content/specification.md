@@ -125,7 +125,7 @@ type: null
 In multi-line string blocks, no escaping is necessary. Characters are treated literally. Multi-line strings can be defined in two different ways. As the beginning and ending markers can be derived from the indentation, there is no need to escape the three double quotes or backticks themselves in the string content.
 
 #### 1) Preserve spaces: ******` ``` `******
-The content block must be indented by one level (2 spaces) relative to the key. These initial 2 spaces on each line are stripped. All other preceding and all trailing spaces are preserved as content.
+The content block must be indented by one level (2 spaces) relative to the key. These initial 2 spaces on each line are stripped. All other preceding and all trailing spaces are preserved as content. The opening indicator ******` ``` `****** must be after the indicator `:` separated by exactly one space. The closing indicator must be at the indentation level of the key.
 
 ````huml
 description: ```
@@ -146,7 +146,8 @@ Line 1
 ```
 
 #### 2) Ignore preceding and trailing spaces: ******`"""`******
-All leading and trailing whitespace on each line of content is stripped.
+The content block must be indented by one level (2 spaces) relative to the key. All leading and trailing whitespace on each line of content is stripped. The opening indicator ******`"""`****** must be after the indicator `:` separated by exactly one space. The closing indicator must be at the indentation level of the key.
+
 
 ```huml
 description: """
