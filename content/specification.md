@@ -4,17 +4,29 @@ title = "HUML specification"
 
 # HUML specification
 
-HUML is a machine-readable markup language with a focus on readability by humans. It is heavily inspired by YAML and shares significant similarities, but without its complexities, ambiguities, and footguns. It is strict about indendentation and spaces, specifically to ensure consistent form across contexts.
+HUML is a machine-readable markup language with a focus on readability by humans. It is inspired by how YAML appears and shares many similarities, but without its complexities, ambiguities, and dangerous footguns. It is very strict about indendentation and spaces specifically to ensure consistent form across contexts for readability.
 
-HUML is ideal for documents, datasets, and configuration files.
+HUML is tailored for configuration, documents, and datasets.
+
 
 ## Motivation
 
-- HUML was primarily born out of the numerous frustrations with YAML, where one easy-to-miss, accidental indentation can dangerously change the semantics of a document.
-- JSON is universal, but lacks comments, does not have a strict form to for consistent readability across contexts, and has comma related ambiguities.
+- HUML was primarily born out of the numerous frustrations with YAML, where one easy-to-miss, accidental indentation change can dangerously alter the semantics of a document.
+- JSON is universal, but lacks comments, does not have a strict form to for consistent readability across contexts, has comma related ambiguities, and bracket-matching woes which makes human-editing difficult.
 - Other popular markup languages such as TOML and HCL are configuration oriented. NestedText is an interesting approach, but is too primitive to be suitable for wider usecases.
+- Of these, YAML is the one that comes closest to indicating structure and hierarchy visually.
 
-Ultimately, a new markup language is a subjective endevaour (it was even in 2001, as evidenced by YAML's original name, "*Yet Another ...*"). HUML looks like YAML, but borrows characteristics from many existing languages with the primary focus on enforcing human redability and accessibility.
+Ultimately, a new markup language is a subjective endevaour (it was even in 2001, as evidenced by YAML's original name, "*Yet Another ...*"). HUML looks like YAML, but borrows characteristics from many existing languages with the primary focus on enforcing human redability and consistency across contexts.
+
+But really, why? Why not!
+
+## Goals
+- Human readability and editability.
+- Visual comprehension of data structures and hierarchies.
+- Avoid footguns and ambiguities in syntax and data types.
+- As few ways of representing something as possible for consistency.
+- Strictness for form and consistency.
+- Avoid the need for visual formatters.
 
 
 ---
@@ -50,11 +62,13 @@ HUML supports scalar (string, number, bool, null) and vector (list, dict) dataty
 | **Boolean** | True or false values | `true`, `false` |
 | **Null** | Null value | `null` |
 | **List** | Array of arbitrary datatypes. Definition can be inline or multi-line. Multi-line items are prefixed with a `-` like a bullet point list. | `1, 2, "three"` |
-|          | `[]` is a special signifier used to denote an empty list | `items: []` |
+|          | Definition can be inline or multi-line. |  |
+|          | Multi-line items are prefixed with a `-` like a bullet point list. |  |
+|          | `[]` is a special signifier used to denote an empty vector list. Eg: `items:: []` | `[]` |
 | **Dict** | Unordered map of key-value pairs. Keys are strings and values can be of arbitrary data types. | `hello: "world", num: 123` |
 |          | Definition can be inline or multi-line. | |
 |          | Duplicate keys inside a dict are not allowed. | |
-|          | `{}` is a special signifier used to denote an empty dict | `objects: {}` |
+|          | `{}` is a special signifier used to denote an empty vector dict. Eg: `items:: {}` | `{}` |
 
 
 ------------
@@ -67,10 +81,9 @@ HUML supports scalar (string, number, bool, null) and vector (list, dict) dataty
 
 ### Spaces
 The presence of space characters are strictly controlled.
-* Trailing spaces are not allowed on any line, including empty lines and comment-only lines, except for content within multi-line strings.
-* Comments `#` should be immediately followed by one space.
-* Preceding spaces are allowed a comment's `#`.
-* Only a single space is allowed after the indicator (`:`, `::`, `-`) and the subsequent value.
+* Trailing spaces are not allowed on any line, including empty lines and comment-only lines, except for content within multi-line strings, where they are treated as content.
+* The comment marker `#` should be immediately followed by one space, before the comment contents. Eg: `# Comment` and not `#Comment`.
+* Only a single space is allowed after the indicators `:`, `::`, `-` and the subsequent value.
 * For multi-line vectors, `::` should be immediately followed by a line break, unless it is a comment starting with `#`.
 * In inline lists, commas should not have preceding spaces and should be followed by exactly one space. Eg: `1, 2, 3`
 
@@ -78,12 +91,12 @@ The presence of space characters are strictly controlled.
 
 ### Comments
 
-* Lines beginning with `#` are comments. Comments anywhere can have preceding spaces.
-* After `#`, there must be minimum one space before any other character.
+* Lines beginning with `#` are comments. Comments anywhere can have preceding spaces, but not trailing spaces.
+* After `#`, there must be at least one space before any other character.
 
 ```huml
-# Entire line comment
-key: "value"  # Inline comment
+# Comment-only line
+key: "value"         # Inline comment with a lot of preceding spaces.
 ```
 
 ------------
@@ -91,11 +104,11 @@ key: "value"  # Inline comment
 ### Keys and values
 
 - Keys are case-sensitive unicode strings.
-  - If  alphanumeric `a-zA-Z0-9_-`, no need to be quoted. Eg: `foo: 123`, `foo-bar: "yes"`
-  - If any other characters including spaces are present, keys have to be quoted Eg: `foo: 123`,  `"foo bar": 123`
+  - If  alphanumeric `a-zA-Z0-9_-`, no need to be quoted.<br />Eg: `foo: 123`, `foo-bar: "yes"`
+  - If any other characters including spaces are present, keys have to be quoted<br />Eg: `foo: 123`,  `"foo bar": 123, "ഭൂമി": "Earth"`
 - Scalar keys are denoted with the key followed by a single colon `:`
-- Vector keys are denoted with the key followed by a double colon `::`
-- Must have a space following colon(s) before value or inline comment.
+- Vector keys are denoted with the key followed by double colons `::`
+- No spaces are allowed before the `:` or `::`, and they need to be followed by exacty one space before the value.
 
 ------------
 
@@ -112,17 +125,18 @@ type: null
 
 ### Multi-line strings
 
-In multi-line string blocks, no escaping is necessary. Characters are treated literally. Multi-line strings can be defined in two different ways, with three backticks (literal, preserves preceding spaces) or three double quotes (ignored preceding spaces)
+In multi-line string blocks, no escaping is necessary. Characters are treated literally. Multi-line strings can be defined in two different ways, with three backticks (literal, preserves preceding and trailing spaces) or three double quotes (strip preceding and trailing spaces). As the beginning and ending of the markers can be derived from the indentation, there is no need to escape the three double qutoes and backticks themselves in the string content.
 
-#### 1) Preserve preceding spaces ******` ``` `******
-All indentations are preserved starting from the minimum required indenation level (2 spaces from the beginning of the key)
+#### 1) Preserve spaces ******` ``` `******
+All preceding and trailing spaces are preserved starting from the minimum required indenation level for each line, which is 2 spaces from the beginning of the key.
 
 ````huml
 description: ```
   Line 1
    Line 2
     Line 3
-          All indentations are preserved.
+          All spaces are preserved.
+```
 ````
 
 is parsed as:
@@ -131,11 +145,11 @@ is parsed as:
 Line 1
  Line 2
   Line 3
-        All indentations are preserved.
+        All spaces are preserved.
 ```
 
-#### 2) Ignore preceding spaces ******`"""`******
-All preceding spaces are ignored.
+#### 2) Ignore preceding and trailing spaces ******`"""`******
+All preceding and trailing spaces around the lines are ignored.
 
 
 ```huml
@@ -143,7 +157,7 @@ description: """
   Line 1
    Line 2
     Line 3
-         All indentations are ignored.
+         All spaces are ignored.   
 """
 ```
 
@@ -152,7 +166,7 @@ is parsed as:
 Line 1
 Line 2
 Line 3
-All indentations are ignored.
+All spaces are ignored.
 ```
 
 ------------
@@ -163,7 +177,7 @@ Vectors are denoted with double colons `::` and can be lists (arrays) or dicts (
 
 #### Lists
 
-* **Inline:** Comma-separated without trailing commas. Inline list items can only be scalar values and not vectors or nesting.
+* **Inline:** Comma-separated without trailing commas. Inline list items can only be scalar values and cannot contain vectors or nesting.
 * **Multi-line:** A hyphen `-` denotes a list item, indented exactly by 2 spaces from the beginning of the parent key. Multi-line lists can be nested and can contain vectors.
 * **Empty list:** A vector can be marked as an empty list with the special value `[]`
 
@@ -200,8 +214,8 @@ empty_list:: []
 
 #### Dicts
 
-* **Inline:** `key: value` pairs comma separated without trailing commas. Inline dicts can only contain scalar key-values and not vectors or nesting.
-* **Multiline:** `key: value` on a line indented exactly by 2 spaces from the beginning of the parent key. Multi-line dicts can be nested and can contain vectors.
+* **Inline:** Keys inside a dict are `key: value` pairs comma separated without trailing commas. Inline dicts can only contain scalar key-values and cannot contain vectors or nesting.
+* **Multiline:** Keys inside a dict `key: value` on a line indented exactly by 2 spaces from the beginning of the parent key. Multi-line dicts can be nested and can contain vectors.
 * **Empty dict:** A vector can be marked as an empty dict with the special value `{}`
 
 ```huml
@@ -222,26 +236,80 @@ nested_dict::
 empty_dict: {}
 ```
 
-### Why `::`?
-The indicator `::` immediately makes it apparent that what follows is a vector, to human readers and parsers. Less guessing.
+------------------
 
-It also permits lists to be defined inline without other indicators or enclosures.
+# Examples
+
+## Why `::`?
+
+1) The indicator `::` immediately makes it apparent that what follows is a vector, to both human readers and parsers. Less guessing.
+
+```huml
+# Inline list: [1, 2, 3, "four"]
+foo:: 1, 2, 3, "four"
+
+# Inline dict: {"foo": {"bar": "baz", "one": 1}}
+foo:: bar: "baz", one: 1
+
+# Multi-line list
+foo::
+  - 1
+  - 2
+  - 3
+
+# Multi-line dict
+foo::
+  bar: "baz"
+  one: 1
+
+```
+
+2) It permits vectors to be defined inline without additional syntax such as `[ ... ]` or `{ ... }`. Opening and closing enclosures bring in complexities of keeping track of nesting and balancing closures, both for humans and parsers.
 
 ```huml
 # This is a list with one item: key = ["one"]
 key:: "one"
 
 # Without :: it is not possible to represent an inline list
-# without another indicator or enclosures such as []
+# without an enclosure such as [ ... ]. Eg: key: ["one"]
 # Here, key = "one"
 key: "one"
+```
 
+3) It avoid several ambiguities. In YAML, for example:
+```yaml
+# Although this looks like a list, it is a string: foo = "1, 2, 3"
+foo: 1, 2, 3
+
+# Square brackets is a list.
+foo: [1, 2, 3]
+
+# Square brackets over multiple lines is also a list.
+foo: [
+1,
+ 2,
+  3,
+]
+
+# And this is also a list.
+foo:
+- 1
+- 2
+- 3
+
+# Although this looks like a nested list,
+# it actually translates to: {"foo": ["1 - 2 - 3"]}
+# WUT?
+foo:
+ - 1
+  - 2
+  - 3
 ```
 
 
-### Key-less documents
+## Key-less documents
 
-A HUML document does not need to be a dict at the root. Similar to JSON, it can be a key-less scalar or a vector list.
+An empty HUML document is evaluated as an empty dict by default. However, a document does not need to be a dict at the root. Similar to JSON, it can be a key-less scalar or a vector list.
 
 ```huml
 true
@@ -259,6 +327,16 @@ true
 ::
   - "first"
   - "second"
+```
+
+```huml
+# Special indicator for an empty dict.
+:: {}
+```
+
+```huml
+# Special indicator for an empty list.
+:: []
 ```
 
 ---

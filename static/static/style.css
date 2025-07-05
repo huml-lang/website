@@ -1,5 +1,5 @@
 :root {
-    --primary: #3450CF;
+    --primary: #057D5F;
     --secondary: #a4926a;
     --black: #222;
 }
@@ -80,22 +80,26 @@ table {
     }
 
 code {
-    padding: 0 6px;
-    border-radius: 5px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    line-height: 1;
 }
     pre {
         border-radius: 10px;
-        max-width: 92vw;
+        max-width: 95vw;
         padding: 15px;
         overflow: scroll;
     }
     pre code {
         display: block;
-        max-height: 50vh;
+        max-height: 70vh;
+        line-height: 1.4;
     }
     code:not(pre code) {
-        background: #ECEFFF;
+        background: #DBF2EC;
         display: inline-block;
+        font-size: .8em;
+        color: #057d5f;
     }
 sup a {
     text-decoration: none;
@@ -204,14 +208,20 @@ button, .button {
         background: none;
     }
 
-
-.recipients table tbody tr td:first-child {
-    width: 70%;
+.toc {
+    float: right;
+    padding: 15px;
+    box-shadow: 1px 1px 4px #eee;
+    border: 2px solid #eee;
+    margin: 0 0 30px 30px;
 }
-    .recipients table thead tr th:nth-child(3),
-    .recipients table tbody tr td:nth-child(3) {
-        text-align: right;
+    .toc ul {
+        padding-inline-start: 30px;
     }
+    .toc li {
+        padding-left: 0px;
+    }
+
 
 .footer {
     border-top: 1px solid #e3d2af;
