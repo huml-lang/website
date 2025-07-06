@@ -18,15 +18,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta property="og:image" content="{{ get_url(path="/static/thumb.png", cachebust=true) }}">
   <link rel="shortcut icon" href="{{ get_url(path="/static/favicon.png" ) }}" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..600;1,14..32,400..600&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path="/static/base.css", cachebust=true) }}" />
   <link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path="/static/style.css", cachebust=true) }}" />
 </head>
 
-<body>
+<body class="{% if page.extra.toc %}has-toc{% endif %}">
+  {% if page.extra.toc %}
+  <nav class="toc">
+    <strong>Table of contents</strong>
+    {% if page.toc %}
+        <ul>
+        {% for h1 in page.toc %}
+            <li>
+                <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+                {% if h1.children %}
+                    <ul>
+                        {% for h2 in h1.children %}
+                            <li>
+                                <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+
+                                <ul>
+                                    {% for h3 in h2.children %}
+                                        <li>
+                                            <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+  </nav>
+  {% endif %}
+
 <div class="container main">
   <header class="header row">
     <div class="col-2 col-fix">
@@ -37,7 +65,8 @@
       <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle nav">☰</label>
 
       <div class="items">
-        <a href="{{ get_url(path="@/specification.md") }}">Specification</a>
+        <a href="{{ get_url(path="@/specifications/v0.1.0.md") }}">Specification</a>
+        <a href="{{ get_url(path="@/code.md") }}">Code</a>
         <a href="{{ get_url(path="@/examples.md") }}">Examples</a>
       </div>
     </nav>

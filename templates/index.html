@@ -13,6 +13,11 @@
     {% set snippet = get_page(path="example.md") %}
     {{ snippet.content | safe }}
   </section>
+
+  <section class="intro">
+    {% set snippet = get_page(path="home.md") %}
+    {{ snippet.content | safe }}
+  </section>
 </main>
 
 {% endblock content %}
