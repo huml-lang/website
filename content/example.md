@@ -2,8 +2,6 @@
 title = "HUML example"
 +++
 
-## Example
-
 ```huml
 # This is the root dictionary for our application configuration.
 application_config::
