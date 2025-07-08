@@ -45,4 +45,4 @@ Still, why YET another markup language? <strong>Why not?</strong>
 - Strictness for consistent form.
 - Avoid the need for visual formatters.
 
-<br />[Read the specs &rarr;](/specifications/v0-1-0)
+<br />[Read the specs &rarr;](specifications/v0-1-0)
