@@ -6,10 +6,10 @@ title = "Home"
 # A sample HUML document.
 website::
   hostname: "huml.io"
-  ports: 80, 443 # Inline list.
+  ports:: 80, 443 # Inline list.
   enabled: true
-  tags:: content_type: "text/html", content_encoding: "gzip" # Inline dict.
   factor: 3.14
+  props:: content_type: "text/html", content_encoding: "gzip" # Inline dict.
   tags:: # Multi-line list.
     - "markup"
     - "webpage"
