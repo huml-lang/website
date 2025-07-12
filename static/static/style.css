@@ -145,6 +145,17 @@ button, .button {
         color: #fff;
     }
 
+.tag {
+    background: #FEF3C6;
+    display: inline-block;
+    font-size: .8rem;
+    color: #c28536;
+    padding: 4px 5px 0 5px;
+    line-height: 1;
+    border-radius: 3px;
+    display: inline-block;
+}
+
 .main {
     margin-top: 45px;
     margin-bottom: 30px;
