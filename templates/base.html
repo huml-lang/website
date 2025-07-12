@@ -1,3 +1,4 @@
+{% import "macros.html" as macros %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,10 +66,10 @@
       <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle nav">☰</label>
 
       <div class="items">
-        <a href="{{ get_url(path="") }}">Home</a>
-        <a href="{{ get_url(path="@/specifications/v0.1.0.md") }}">Specification</a>
-        <a href="{{ get_url(path="@/code.md") }}">Code</a>
-        <a href="{{ get_url(path="@/examples.md") }}">Examples</a>
+        {{ macros::page_link(name="Home", path="") }}
+        {{ macros::page_link(name="Specification", path="@/specifications/v0.1.0.md") }}
+        {{ macros::page_link(name="Code", path="@/code.md") }}
+        {{ macros::page_link(name="Examples", path="@/examples.md") }}
       </div>
     </nav>
   </header>

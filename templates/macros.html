@@ -1,0 +1,6 @@
+{% macro page_link(name, path) %}
+  {% set target_url = get_url(path=path) %}
+    <a href="{{ target_url }}" {% if current_url == target_url %}class="active"{% endif %}>
+       {{ name }}
+    </a>
+{% endmacro page_link %}

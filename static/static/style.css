@@ -26,6 +26,8 @@ a {
 }
     a:hover {
         color: #111;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
     }
 
 h1, h2, h3, h4, h5, h6 {
@@ -161,7 +163,11 @@ button, .button {
     }
     .header .nav a {
         margin-left: 30px;
-        text-decoration: none;
+    }
+    .header .nav a.active {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        color: #111;
     }
 
     #nav-toggle {
@@ -235,78 +241,6 @@ button, .button {
     color: var(--secondary);
     font-size: 0.875rem;
 }
-    .footer a {
-        text-decoration: none;
-    }
-
-.posts-list {
-    list-style-type: none;
-    padding: 0;
-}
-    .posts-list .meta {
-        border-top: 1px solid #ddd;
-        margin-top: 40px;
-        padding-top: 30px;
-        font-size: 0.875rem;
-    }
-    .posts-list .date {
-        text-align: right;
-        color: #888;
-    }
-    .posts-list li {
-        margin-bottom: 90px;
-    }
-
-    .posts-list .title {
-        margin: 0 0 20px 0;
-    }
-
-.post .title {
-    margin: 0 0 15px 0;
-}
-    .post .date {
-        margin-bottom: 30px;
-    }
-    .post .title a {
-        text-decoration: none;
-    }
-    .post .date {
-        color: #888;
-    }
-
-.avatar {
-    font-size: 0.875rem;
-    display: flex;
-}
-    .avatar img {
-        border-radius: 100%;
-        max-width: 52px;
-    }
-    .avatar div:first-child {
-        flex-basis: 75px;
-        flex-grow: 0;
-    }
-    .avatar div:last-child {
-        flex-grow: 1;
-    }
-    .avatar .title {
-        color: #888;
-        display: block;
-    }
-    .avatar .links {
-        margin-top: 10px;
-    }
-    .avatar .links img {
-        opacity: 0.4;
-        max-height: 20px;
-        margin-right: 5px;
-    }
-
-    .main-post .avatar {
-        margin-top: 85px;
-        position: sticky;
-        top: 30px;
-    }
 
 
 @media (max-width: 800px) {
