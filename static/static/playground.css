@@ -5,6 +5,7 @@
 .CodeMirror {
     min-height: 50vh;
     font-size: 0.775rem;
+    border-radius: 5px;
 }
 .CodeMirror-gutters {
     background: none;
@@ -51,4 +52,7 @@
 .note {
     font-size: 0.675rem;
     color: #999;
+}
+.cm-s-ayu-mirage .CodeMirror-linenumber {
+    color: #888;
 }

@@ -18,7 +18,7 @@ function initEditors() {
         lineNumbers: true,
         viewportMargin: Infinity,
         mode: 'application/json',
-        theme: 'neat',
+        theme: 'ayu-mirage',
         tabSize: 2,
         indentWithTabs: false,
         lineWrapping: true,
