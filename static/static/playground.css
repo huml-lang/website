@@ -33,6 +33,10 @@
     margin-left: 15px;
     display: inline-block;
 }
+.controls .btn-swap {
+    display: inline-block;
+    margin-right: 15px;
+}
 .controls .btn-copy.disabled {
     color: #888;
     cursor: default;

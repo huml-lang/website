@@ -49,13 +49,12 @@ function initEditors() {
 // Initialize event listeners.
 function initListners() {
     const formatLeft = document.querySelector('#format-left');
-    formatLeft.value = 'json';
     formatLeft.addEventListener('change', function () {
+        updateEditorMode(leftEditor, formatLeft.value);
         updateUIState(false, 'draft');
     });
 
     const formatRight = document.querySelector('#format-right');
-    formatRight.value = 'huml';
     formatRight.addEventListener('change', function () {
         updateUIState(false, 'draft');
     });
@@ -71,6 +70,30 @@ function initListners() {
     // Convert button..
     document.querySelector('#btn-convert').addEventListener('click', function (e) {
         e.preventDefault();
+        convertContent();
+    });
+
+    // Swap buttoin.
+    document.querySelector('.btn-swap').addEventListener('click', function (e) {
+        e.preventDefault();
+        const leftFormat = document.querySelector('#format-left');
+        const rightFormat = document.querySelector('#format-right');
+
+        // Swap formats.
+        const temp = leftFormat.value;
+        leftFormat.value = rightFormat.value;
+        rightFormat.value = temp;
+
+        // Update editor modes.
+        updateEditorMode(leftEditor, leftFormat.value);
+        updateEditorMode(rightEditor, rightFormat.value);
+
+        // Swap editor content.
+        const leftContent = leftEditor.getValue();
+        const rightContent = rightEditor.getValue();
+        leftEditor.setValue(rightContent);
+        rightEditor.setValue(leftContent);
+
         convertContent();
     });
 
