@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Playground</h1>
+<p>Convert between HUML, JSON, YAML, TOML</p>
+
+
+<section class="playground" style="display: none">
+    <div class="row">
+        <div class="col-6">
+            <div class="editor editor-wrap-left">
+                <div class="controls">
+                    <div class="row">
+                        <div class="col-8">
+                            <span class="title">Input</span>
+                            <select id="format-left">
+                                <option value="json">JSON</option>
+                                <option value="yaml">YAML</option>
+                                <option value="toml">TOML</option>
+                            </select>
+                            <a href="#" role="button" aria-label="Copy to clipboard" class="btn-copy" data-side="left">Copy</a>
+                        </div>
+                        <div class="col-4 convert">
+                            <button id="btn-convert">Convert →</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <textarea id="editor-left" class="code-editor" placeholder="Paste your content here..."></textarea>
+                    <small class="note">You can drag and drop huml, yaml, json, or toml file into the editor</small>
+                </div>
+                <div id="error-left" class="error-message"></div>
+            </div>
+        </div><!-- col -->
+        
+        <div class="col-6 editor-wrap-right">
+            <div class="editor">
+                <div class="converter-panel">
+                    <div class="controls">
+                        <span class="title">Output</span>
+                        <select id="format-right">
+                            <option value="yaml">YAML</option>
+                            <option value="json">JSON</option>
+                            <option value="toml">TOML</option>
+                        </select>
+                        <a href="#" role="button" aria-label="Copy to clipboard" class="btn-copy" data-side="right">Copy</a>
+                    </div>
+                    <div class="editor-container">
+                        <textarea id="editor-right" class="code-editor"readonly></textarea>
+                    </div>
+                    <div id="error-right" class="error-message"></div>
+                </div>
+            </div>
+        </div><!-- col -->
+    </div><!-- row -->
+</section>
+
+<!-- Truckloads of assets from here on -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/neat.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/foldgutter.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path="/static/playground.css", cachebust=true) }}" />
+
+<!-- CodeMirror -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/yaml/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/toml/toml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/foldcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/foldgutter.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/brace-fold.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/brace-fold.min.js"></script>
+
+<!-- Parser libs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script type="module">
+    import iarnatoml from 'https://cdn.jsdelivr.net/npm/@iarna/toml@2.2.5/+esm'
+    window.jsToml = iarnatoml;
+</script>
+
+<script src="{{ get_url(path="/static/playground.js") }}"></script>
+
+{% endblock content %}

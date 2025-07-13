@@ -115,6 +115,12 @@ input {
     border: 1px solid #aaa;
     width: 100%;
 }
+select {
+    padding: 5px 10px;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 1px solid #666;
+}
 button {
     font-size: 1rem;
     border: 0;
@@ -130,7 +136,7 @@ ul.flat {
     }
 
 button, .button {
-    background: var(--black);
+    background: var(--primary);
     text-decoration: none;
     color: #fff;
     font-weight: bold;
@@ -139,10 +145,14 @@ button, .button {
     border-radius: 30px;
     border: 0;
 }
-    button:hover,
+    button:not(:disabled):hover,
     .button:hover {
-        background: var(--primary);
+        background: var(--black);
         color: #fff;
+    }
+    button:disabled {
+        background: #666;
+        cursor: not-allowed;
     }
 
 .tag {
@@ -160,6 +170,9 @@ button, .button {
     margin-top: 45px;
     margin-bottom: 30px;
 }
+body.page .content {
+    padding: 0 30px;
+}
 
 .dim-small {
     font-size: 0.875rem;
@@ -167,7 +180,7 @@ button, .button {
 }
 
 .header {
-    margin-bottom: 10vh;
+    margin-bottom: 30px;
 }
     .header .nav {
         text-align: right;

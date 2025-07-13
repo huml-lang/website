@@ -23,7 +23,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path="/static/style.css", cachebust=true) }}" />
 </head>
 
-<body class="{% if page.extra.toc %}has-toc{% endif %}">
+<body class="{% if page.extra.toc %}has-toc{% endif %} {% if page.slug %}page page-{{ page.slug }}{% endif %}">
   {% if page.extra.toc %}
   <nav class="toc">
     <strong>Table of contents</strong>
@@ -56,7 +56,7 @@
   </nav>
   {% endif %}
 
-<div class="container main">
+<main class="container main">
   <header class="header row">
     <div class="col-2 col-fix">
       <div class="logo"><a href="{{ get_url(path='/') }}"><img src="{{ get_url(path='/static/logo.svg') }}" alt="{{ config.extra.default_title }}" /></a></div>
@@ -78,7 +78,7 @@
   </section>
   
   <footer class="footer"><a href="https://nadh.in">Kailash Nadh</a> / Website content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/"> CC BY-SA 4.0</a></footer>
-</div>
+</main>
 <script>
 (() => {
   document.querySelectorAll('a[data-copy-clipboard]').forEach(link => {
