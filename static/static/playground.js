@@ -249,24 +249,35 @@ function copyToClipboard(el, side) {
 
 // Set example content for demonstration.
 function setExampleContent() {
-    const exampleJSON = {
-        "name": "John Doe",
-        "age": 30,
-        "email": "john.doe@example.com",
-        "address": {
-            "street": "123 Main St",
-            "city": "Anytown",
-            "country": "USA"
-        },
-        "hobbies": ["reading", "hiking", "photography"],
-        "active": true,
-        "metadata": {
-            "created": "2025-01-01",
-            "version": "1.0"
-        }
-    };
+    const str = `
+# A sample HUML document.
+website::
+  hostname: "huml.io"
+  ports:: 80, 443 # Inline list.
+  enabled: true
+  factor: 3.14
 
-    leftEditor.setValue(JSON.stringify(exampleJSON, null, 2));
+  # Inline dict below.
+  props:: mime_type: "text/html", encoding: "gzip"
+  tags:: # Multi-line list.
+    - "markup"
+    - "webpage"
+    - "schema"
+
+mixed_list:: 1, 2, "three", true
+
+haikus::
+  one: """
+    A quiet language
+    Lines fall into their places
+    Nothing out of place
+  """
+    `;
+
+    document.querySelector('#format-left').value = 'huml';
+    document.querySelector('#format-right').value = 'json';
+
+    leftEditor.setValue(str);
     rightEditor.setValue('');
     hideMessages();
 
