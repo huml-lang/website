@@ -14,6 +14,7 @@
                         <div class="col-8">
                             <span class="title">Input</span>
                             <select id="format-left">
+                                <option value="huml">HUML</option>
                                 <option value="json">JSON</option>
                                 <option value="yaml">YAML</option>
                                 <option value="toml">TOML</option>
@@ -39,8 +40,9 @@
                     <div class="controls">
                         <span class="title">Output</span>
                         <select id="format-right">
-                            <option value="yaml">YAML</option>
+                            <option value="huml">HUML</option>
                             <option value="json">JSON</option>
+                            <option value="yaml">YAML</option>
                             <option value="toml">TOML</option>
                         </select>
                         <a href="#" role="button" aria-label="Copy to clipboard" class="btn-copy" data-side="right">Copy</a>
@@ -72,12 +74,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/foldgutter.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/brace-fold.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/brace-fold.min.js"></script>
+<script src="{{ get_url(path="/static/codemirror5-huml.min.js") }}"></script>
 
 <!-- Parser libs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <script type="module">
     import iarnatoml from 'https://cdn.jsdelivr.net/npm/@iarna/toml@2.2.5/+esm'
     window.jsToml = iarnatoml;
+</script>
+<script type="module">
+    import { parse, stringify } from '{{ get_url(path="/static/huml.min.js") }}'
+    window.jsHuml = { parse, stringify };
 </script>
 
 <script src="{{ get_url(path="/static/playground.js") }}"></script>

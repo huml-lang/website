@@ -48,11 +48,15 @@ function initEditors() {
 
 // Initialize event listeners.
 function initListners() {
-    document.querySelector('#format-left').addEventListener('change', function () {
+    const formatLeft = document.querySelector('#format-left');
+    formatLeft.value = 'json';
+    formatLeft.addEventListener('change', function () {
         updateUIState(false, 'draft');
     });
 
-    document.querySelector('#format-right').addEventListener('change', function () {
+    const formatRight = document.querySelector('#format-right');
+    formatRight.value = 'huml';
+    formatRight.addEventListener('change', function () {
         updateUIState(false, 'draft');
     });
 
@@ -97,6 +101,7 @@ function initListners() {
 // Update CodeMirror editor mode based on format.
 function updateEditorMode(editor, format) {
     const modes = {
+        'huml': 'huml',
         'json': 'application/json',
         'yaml': 'text/x-yaml',
         'toml': 'text/x-toml'
@@ -124,6 +129,9 @@ function convertContent() {
         // Parse the input based on left format.
         let data;
         switch (leftFormat) {
+            case 'huml':
+                data = window.jsHuml.parse(content);
+                break;
             case 'json':
                 data = JSON.parse(content);
                 break;
@@ -141,6 +149,9 @@ function convertContent() {
         // Convert to target format.
         let output;
         switch (rightFormat) {
+            case 'huml':
+                output = window.jsHuml.stringify(data);
+                break;
             case 'json':
                 output = JSON.stringify(data, null, 2);
                 break;
@@ -256,7 +267,10 @@ function setExampleContent() {
     };
 
     leftEditor.setValue(JSON.stringify(exampleJSON, null, 2));
-
     rightEditor.setValue('');
     hideMessages();
+
+    setTimeout(() => {
+        convertContent();
+    }, 100);
 }
