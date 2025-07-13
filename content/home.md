@@ -9,7 +9,7 @@ website::
   ports:: 80, 443 # Inline list.
   enabled: true
   factor: 3.14
-  props:: content_type: "text/html", content_encoding: "gzip" # Inline dict.
+  props:: mime_type: "text/html", encoding: "gzip" # Inline dict.
   tags:: # Multi-line list.
     - "markup"
     - "webpage"
