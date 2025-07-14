@@ -1,6 +1,5 @@
 %YAML 1.2
 ---
-# Sublime Text syntax definition for HUML (Human-Readable Markup Language)
 name: HUML
 file_extensions:
   - huml
@@ -8,129 +7,176 @@ scope: source.huml
 
 contexts:
   main:
-    - include: version-declaration
-    - include: comments
-    - include: vector-key
-    - include: scalar-key
-    - include: list-item
-
-  version-declaration:
-    - match: '^%HUML\s+\d+\.\d+\s*(#.*)?$'
-      scope: meta.version-declaration.huml
+    # Version directive
+    - match: '^(%HUML)\s+(v[\d\.]+)?'
       captures:
-        1: comment.line.huml
+        1: keyword.other.version.huml
+        2: constant.numeric.version.huml
+      push: comment-or-eol
 
-  comments:
-    - match: '#.*$'
-      scope: comment.line.huml
-
-  vector-key:
-    - match: '^(\s*)([\w_-]+|"[^"]*")\s*(::)(?:\s*(#.*)|(.*))?$'
+    # Comments
+    - match: '(#)\s'
       captures:
-        2: entity.name.tag.vector-key.huml
-        3: punctuation.separator.vector.huml
-        4: comment.line.huml
-        5: meta.vector-value.huml
-      push:
-        - match: '^(?!\s*[\w_-]+\s*:|.*::)'
-          pop: true
-        - include: inline-values
+        1: punctuation.definition.comment.huml
+      push: comment-content
 
-  scalar-key:
-    - match: '^(\s*)([\w_-]+|"[^"]*")\s*(:)\s*(.*)$'
-      captures:
-        2: entity.name.tag.scalar-key.huml
-        3: punctuation.separator.scalar.huml
-        4: meta.scalar-value.huml
-      push:
-        - match: '$'
-          pop: true
-        - include: values
-
-  list-item:
-    - match: '^(\s*)(-)\s*(.*)$'
-      captures:
-        2: punctuation.definition.list.huml
-        3: meta.list-item-value.huml
-      push:
-        - match: '^(?!\s*-)'
-          pop: true
-        - include: list-item-values
-
-  list-item-values:
-    - match: '::\s*(.*)$'
-      scope: meta.inline-dict.huml
-      captures:
-        1: meta.inline-dict-value.huml
-      push:
-        - match: '$'
-          pop: true
-        - include: inline-values
-    - include: values
-
-  inline-values:
-    - match: '([\w_-]+|"[^"]*")\s*:'
-      captures:
-        1: entity.name.tag.inline-key.huml
-    - match: ','
-      scope: punctuation.separator.comma.huml
-    - include: values
-
-  values:
-    - include: multiline-strings
-    - include: strings
-    - include: numbers
-    - include: constants
-    - include: empty-containers
-    - include: comments
-
-  multiline-strings:
-    - match: '"""'
-      scope: punctuation.definition.string.begin.huml
-      push:
-        - meta_scope: string.quoted.triple.double.huml
-        - match: '"""'
-          scope: punctuation.definition.string.end.huml
-          pop: true
-    - match: '```'
-      scope: punctuation.definition.string.begin.huml
-      push:
-        - meta_scope: string.quoted.triple.backtick.huml
-        - match: '```'
-          scope: punctuation.definition.string.end.huml
-          pop: true
-
-  strings:
-    - match: '"'
-      scope: punctuation.definition.string.begin.huml
-      push:
-        - meta_scope: string.quoted.double.huml
-        - match: '"'
-          scope: punctuation.definition.string.end.huml
-          pop: true
-        - match: '\\["\\/bfnrt]'
-          scope: constant.character.escape.huml
-
-  numbers:
-    - match: '\b(nan|inf|[-+]inf)\b'
-      scope: constant.numeric.special.huml
-    - match: '\b0x[0-9A-Fa-f_]+\b'
-      scope: constant.numeric.hex.huml
-    - match: '\b0o[0-7_]+\b'
-      scope: constant.numeric.octal.huml
-    - match: '\b0b[01_]+\b'
-      scope: constant.numeric.binary.huml
-    - match: '\b-?\d[\d_]*(\.[d_]*)?([eE][-+]?[\d_]+)?\b'
+    # Empty list/dict markers at document root
+    - match: '^(\[\]|{})\s*$'
       scope: constant.numeric.huml
 
-  constants:
-    - match: '\b(true|false)\b'
-      scope: constant.language.boolean.huml
-    - match: '\bnull\b'
-      scope: constant.language.null.huml
+    # Multi-line list items
+    - match: '^(\s*)(-)\s'
+      captures:
+        2: punctuation.definition.list.huml
+      push: value-after-dash
 
-  empty-containers:
-    - match: '\[\]'
-      scope: constant.language.empty.huml
-    - match: '\{\}'
-      scope: constant.language.empty.huml
+    # Keys (quoted and unquoted)
+    - match: '^(\s*)("[^"]*"|[a-zA-Z][a-zA-Z0-9_-]*)(::|:)(?=\s)'
+      captures:
+        2: entity.name.tag.huml
+        3: punctuation.separator.key-value.huml
+      push: value-after-indicator
+
+    # Inline list at root
+    - match: '^(?=\S)'
+      push: inline-list-root
+
+  value-after-dash:
+    - match: '::'
+      scope: punctuation.separator.key-value.huml
+      set: value-after-indicator
+    - include: scalar-values
+    - match: '$'
+      pop: true
+
+  value-after-indicator:
+    # Empty list/dict markers
+    - match: '\s*(\[\]|{})'
+      captures:
+        1: constant.numeric.huml
+      set: comment-or-eol
+
+    # Multiline strings with ```
+    - match: '\s*(```)'
+      captures:
+        1: punctuation.definition.string.begin.huml
+      set: multiline-string-backtick
+
+    # Multiline strings with """
+    - match: '\s*(""")'
+      captures:
+        1: punctuation.definition.string.begin.huml
+      set: multiline-string-quote
+
+    # Comment immediately after :: indicator
+    - match: '\s*(#)\s'
+      captures:
+        1: punctuation.definition.comment.huml
+      push: comment-content
+
+    # Inline dict
+    - match: '\s*(?=[a-zA-Z"].*:(?:\s|$))'
+      set: inline-dict
+
+    # Inline list or scalar
+    - match: '\s*'
+      set: inline-list-or-scalar
+
+  inline-list-root:
+    # Check if it's a dict (has key: pattern)
+    - match: '(?=[^,\n]*:(?:\s|,|$))'
+      set: inline-dict
+    # Otherwise treat as list
+    - include: inline-list
+
+  inline-list-or-scalar:
+    # Check for comma to determine if it's a list
+    - match: '(?=[^,\n]*,)'
+      set: inline-list
+    # Otherwise it's a scalar
+    - include: scalar-values
+    - match: '$'
+      pop: true
+
+  inline-list:
+    - include: scalar-values
+    - match: ','
+      scope: punctuation.separator.sequence.huml
+    - match: '$'
+      pop: true
+
+  inline-dict:
+    # Quoted keys
+    - match: '("[^"]*")(:)(?=\s)'
+      captures:
+        1: entity.name.tag.huml
+        2: punctuation.separator.key-value.huml
+    # Unquoted keys
+    - match: '([a-zA-Z][a-zA-Z0-9_-]*)(:)(?=\s)'
+      captures:
+        1: entity.name.tag.huml
+        2: punctuation.separator.key-value.huml
+    - include: scalar-values
+    - match: ','
+      scope: punctuation.separator.sequence.huml
+    - match: '$'
+      pop: true
+
+  scalar-values:
+    # Special values (before strings to ensure they're not matched as unquoted strings)
+    - match: '\b(true|false|null|nan|inf|\+inf|-inf)\b'
+      scope: constant.numeric.huml
+
+    # Strings
+    - match: '"'
+      scope: punctuation.definition.string.begin.huml
+      push: double-quoted-string
+
+    # Numbers
+    - match: '\b(0x[0-9a-fA-F_]+|0o[0-7_]+|0b[01_]+)\b'
+      scope: constant.numeric.huml
+    - match: '\b([-+]?(?:\d[0-9_]*(?:\.[0-9_]+)?(?:[eE][-+]?\d+)?))\b'
+      scope: constant.numeric.huml
+
+    # Comments after values
+    - match: '\s+(#)\s'
+      captures:
+        1: punctuation.definition.comment.huml
+      push: comment-content
+
+  double-quoted-string:
+    - meta_scope: string.quoted.double.huml
+    - match: '\\["\\/bfnrt]'
+      scope: constant.character.escape.huml
+    - match: '\\u[0-9a-fA-F]{4}'
+      scope: constant.character.escape.unicode.huml
+    - match: '"'
+      scope: punctuation.definition.string.end.huml
+      pop: true
+
+  multiline-string-backtick:
+    - meta_content_scope: string.quoted.other.multiline.huml
+    - match: '^(\s*)(```)'
+      captures:
+        2: punctuation.definition.string.end.huml
+      set: comment-or-eol
+
+  multiline-string-quote:
+    - meta_content_scope: string.quoted.double.multiline.huml
+    - match: '^(\s*)(""")'
+      captures:
+        2: punctuation.definition.string.end.huml
+      set: comment-or-eol
+
+  comment-content:
+    - meta_scope: comment.line.number-sign.huml
+    - match: '$'
+      pop: true
+
+  comment-or-eol:
+    - match: '\s*(#)\s'
+      captures:
+        1: punctuation.definition.comment.huml
+      set: comment-content
+    - match: '$'
+      pop: true
