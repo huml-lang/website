@@ -1,4 +1,4 @@
-base_url = "https://huml.io/alpha-preview"
+base_url = "https://huml.io"
 
 generate_feeds = true
 generate_sitemap = true
