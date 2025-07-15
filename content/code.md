@@ -1,5 +1,6 @@
 +++
 title = "HUML SDKs, libs, and tools"
+description = "HUML tools, parsers, and SDKs for various languages"
 +++
 
 # Code
@@ -8,22 +9,22 @@ This page contains links to various HUML-related resources such as parser implem
 
 ## Libraries
 
-| Language | Library                      |
-|----------|------------------------------|
-| Go       | [github.com/huml-lang/go-huml](https://github.com/huml-lang/go-huml) |
-| Python   | [github.com/huml-lang/pyhuml](github.com/huml-lang/pyhuml)  |
-| Javascript   | [github.com/huml-lang/humljs](github.com/huml-lang/humljs)  |
+| Language   | Library                                                              |
+| ---------- | -------------------------------------------------------------------- |
+| Go         | [github.com/huml-lang/go-huml](https://github.com/huml-lang/go-huml) |
+| Javascript | [github.com/huml-lang/huml-js](github.com/huml-lang/huml-js)         |
 
 
 ## Plugins and extensions
 
-| Name | Description                      |
-|----------|------------------------------|
+| Name                                                               | Description                                         |
+| ------------------------------------------------------------------ | --------------------------------------------------- |
 | [vscode extension](https://github.com/huml-lang/huml-vscode)       | Syntax highlighter extension for Visual Studio Code |
-| [huml-sublime](https://github.com/huml-lang/huml-sublime)       | Syntax highlighter for Sublime Text 3 |
-| [vim-huml](https://github.com/huml-lang/vim-huml)       | Syntax highlighter plugin for vim |
+| [huml-sublime](https://github.com/huml-lang/huml-sublime)          | Syntax highlighter for Sublime Text 3               |
+| [CodeMirror 5 mode](https://github.com/huml-lang/codemirror5-huml) | Syntax highlighter mode for Code Mirror 5           |
+| [vim-huml](https://github.com/huml-lang/vim-huml)                  | Syntax highlighter plugin for vim                   |
 
 ## SDKs
-| Name | Description                      |
-|----------|------------------------------|
-| [koanf](https://github.com/knadh/koanf)       | Configuration management library for Go with HUML support |
+| Name                                    | Description                                               |
+| --------------------------------------- | --------------------------------------------------------- |
+| [koanf](https://github.com/knadh/koanf) | Configuration management library for Go with HUML support |
