@@ -305,4 +305,14 @@ body.page .content {
     .main-post .avatar {
         margin: 0;
     }
+
+    body.has-toc {
+        display: block;;
+    }
+    .toc {
+        display: none;
+    }
+    body.page .content {
+        padding: 0;
+    }
 }

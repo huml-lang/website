@@ -56,3 +56,9 @@
 .cm-s-ayu-mirage .CodeMirror-linenumber {
     color: #888;
 }
+
+@media (max-width: 800px) {
+    .editor-wrap-right {
+        margin-top: 30px;
+    }
+}
