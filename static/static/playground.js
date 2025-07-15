@@ -56,7 +56,7 @@ function initListners() {
 
     const formatRight = document.querySelector('#format-right');
     formatRight.addEventListener('change', function () {
-        updateUIState(false, 'draft');
+        convertContent();
     });
 
     // Copy buttons..
@@ -148,38 +148,45 @@ function convertContent() {
         return;
     }
 
+    let src;
     try {
         // Parse the input based on left format.
-        let data;
         switch (leftFormat) {
             case 'huml':
-                data = window.jsHuml.parse(content);
+                src = window.jsHuml.parse(content);
                 break;
             case 'json':
-                data = JSON.parse(content);
+                src = JSON.parse(content);
                 break;
             case 'yaml':
-                data = jsyaml.load(content);
+                src = jsyaml.load(content);
                 break;
             case 'toml':
                 // Use the js-toml library.
-                data = window.jsToml.parse(content);
+                src = window.jsToml.parse(content);
                 break;
             default:
                 throw new Error('Unsupported input format');
         }
+    } catch (error) {
+        rightEditor.setValue('');
+        showError('error-left', `Parse error: ${error.message}`);
+        updateUIState(true, 'error');
+        return;
+    }
 
+    let output;
+    try {
         // Convert to target format.
-        let output;
         switch (rightFormat) {
             case 'huml':
-                output = window.jsHuml.stringify(data);
+                output = window.jsHuml.stringify(src);
                 break;
             case 'json':
-                output = JSON.stringify(data, null, 2);
+                output = JSON.stringify(src, null, 2);
                 break;
             case 'yaml':
-                output = jsyaml.dump(data, {
+                output = jsyaml.dump(src, {
                     indent: 2,
                     lineWidth: 80,
                     noRefs: true,
@@ -188,7 +195,7 @@ function convertContent() {
                 break;
             case 'toml':
                 // Use the js-toml library.
-                output = window.jsToml.stringify(data);
+                output = window.jsToml.stringify(src);
                 break;
             default:
                 throw new Error('Unsupported output format');
@@ -201,7 +208,7 @@ function convertContent() {
 
     } catch (error) {
         rightEditor.setValue('');
-        showError('error-left', `Parse error: ${error.message}`);
+        showError('error-right', `Parse error: ${error.message}`);
         updateUIState(true, 'error');
     }
 }
@@ -224,7 +231,7 @@ function updateUIState(lock, typ) {
         btn.innerText = "Success!";
     } else if (typ === 'draft') {
         btn.innerText = "Convert →";
-        wrap.style.opacity = 0.5;
+        wrap.style.opacity = 0.3;
     }
 
     if (lock) {
