@@ -12,8 +12,8 @@ This page contains links to various HUML-related resources such as parser implem
 | Language   | Library                                                              |
 | ---------- | -------------------------------------------------------------------- |
 | Go         | [github.com/huml-lang/go-huml](https://github.com/huml-lang/go-huml) |
-| Javascript | [github.com/huml-lang/huml-js](github.com/huml-lang/huml-js)         |
-| Rust       | [github.com/huml-lang/huml-rs](github.com/huml-lang/huml-rs)
+| Javascript | [github.com/huml-lang/huml-js](https://github.com/huml-lang/huml-js)         |
+| Rust       | [github.com/huml-lang/huml-rs](https://github.com/huml-lang/huml-rs)
 
 
 ## Plugins and extensions
