@@ -12,18 +12,19 @@ This page contains links to various HUML-related resources such as parser implem
 | Language   | Library                                                              |
 | ---------- | -------------------------------------------------------------------- |
 | Go         | [github.com/huml-lang/go-huml](https://github.com/huml-lang/go-huml) |
-| Javascript | [github.com/huml-lang/huml-js](https://github.com/huml-lang/huml-js)         |
-| Rust       | [github.com/huml-lang/huml-rs](https://github.com/huml-lang/huml-rs)
+| Javascript | [github.com/huml-lang/huml-js](https://github.com/huml-lang/huml-js) |
+| Python     | [github.com/huml-lang/pyhuml](https://github.com/huml-lang/pyhuml)   |
+| Rust       | [github.com/huml-lang/huml-rs](https://github.com/huml-lang/huml-rs) |
 
 
 ## Plugins and extensions
 
-| Name                                                               | Description                                         |
-| ------------------------------------------------------------------ | --------------------------------------------------- |
-| [vscode extension](https://github.com/huml-lang/huml-vscode)       | Syntax highlighter extension for Visual Studio Code |
-| [huml-sublime](https://github.com/huml-lang/huml-sublime)          | Syntax highlighter for Sublime Text 3               |
-| [codemirror5-huml](https://github.com/huml-lang/codemirror5-huml)  | Syntax highlighter mode for Code Mirror 5           |
-| [vim-huml](https://github.com/huml-lang/vim-huml)                  | Syntax highlighter plugin for vim                   |
+| Name                                                              | Description                                         |
+| ----------------------------------------------------------------- | --------------------------------------------------- |
+| [huml-vscode](https://github.com/huml-lang/huml-vscode)           | Syntax highlighter extension for Visual Studio Code |
+| [huml-sublime](https://github.com/huml-lang/huml-sublime)         | Syntax highlighter for Sublime Text 3               |
+| [codemirror5-huml](https://github.com/huml-lang/codemirror5-huml) | Syntax highlighter mode for Code Mirror 5           |
+| [vim-huml](https://github.com/huml-lang/vim-huml)                 | Syntax highlighter plugin for vim                   |
 
 ## SDKs
 | Name                                    | Description                                               |
