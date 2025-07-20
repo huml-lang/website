@@ -38,11 +38,10 @@ Still, why YET another markup language? <strong>Why not?</strong>
 ---
 
 ## Goals
-- Human readability and editability.
-- Visual comprehension of data structures and hierarchies.
+- Ensure human readability and editability above all else.
+- Enable visual comprehension of data structures and hierarchies.
 - Avoid footguns and ambiguities in syntax and data types.
-- As few ways of representing something as possible to ensure consistency.
-- Strictness for consistent form.
-- Avoid the need for visual formatters.
+- Provide as few ways as possible—preferably one—of representing something.
+- Maintain strict formatting for uniformity, eliminating the need for formatters.
 
-<br />[Read the specs &rarr;](specifications/v0-1-0)
+<br />[Read the specs &rarr;](/specifications/v0-1-0)
