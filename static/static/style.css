@@ -170,9 +170,6 @@ button, .button {
     margin-top: 45px;
     margin-bottom: 30px;
 }
-body.page .content {
-    padding: 0 30px;
-}
 
 .dim-small {
     font-size: 0.875rem;
