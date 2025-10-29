@@ -9,13 +9,14 @@ This page contains links to various HUML-related resources such as parser implem
 
 ## Libraries
 
-| Language   | Library                                                              |
-| ---------- | -------------------------------------------------------------------- |
-| Go         | [@huml-lang/go-huml](https://github.com/huml-lang/go-huml) |
-| Javascript | [@huml-lang/huml-js](https://github.com/huml-lang/huml-js) |
-| Python     | [@huml-lang/pyhuml](https://github.com/huml-lang/pyhuml)   |
-| Rust       | [@huml-lang/huml-rs](https://github.com/huml-lang/huml-rs) |
-| OCaml       | [@nikochiko/huml-ml](https://github.com/nikochiko/huml-ml) |
+| Language    | Library                                                            |
+| ----------- | ------------------------------------------------------------------ |
+| Go          | [@huml-lang/go-huml](https://github.com/huml-lang/go-huml)         |
+| Javascript  | [@huml-lang/huml-js](https://github.com/huml-lang/huml-js)         |
+| Python      | [@huml-lang/pyhuml](https://github.com/huml-lang/pyhuml)           |
+| Rust        | [@huml-lang/huml-rs](https://github.com/huml-lang/huml-rs)         |
+| OCaml       | [@nikochiko/huml-ml](https://github.com/nikochiko/huml-ml)         |
+| Standard ML | [@Fred-Milhorn/huml-sml](https://github.com/Fred-Milhorn/huml-sml) |
 
 
 ## Plugins and extensions
@@ -26,6 +27,7 @@ This page contains links to various HUML-related resources such as parser implem
 | [huml-sublime](https://github.com/huml-lang/huml-sublime)         | Syntax highlighter for Sublime Text 3               |
 | [codemirror5-huml](https://github.com/huml-lang/codemirror5-huml) | Syntax highlighter mode for Code Mirror 5           |
 | [vim-huml](https://github.com/huml-lang/vim-huml)                 | Syntax highlighter plugin for vim                   |
+| [huml-lsp](https://github.com/Fred-Milhorn/huml-language-server)  | Language Server Protocol for HUML                   |
 
 ## SDKs
 | Name                                    | Description                                               |
