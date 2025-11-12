@@ -13,9 +13,10 @@ This page contains links to various HUML-related resources such as parser implem
 | ----------- | ------------------------------------------------------------------ |
 | Go          | [@huml-lang/go-huml](https://github.com/huml-lang/go-huml)         |
 | Javascript  | [@huml-lang/huml-js](https://github.com/huml-lang/huml-js)         |
-| Python      | [@huml-lang/pyhuml](https://github.com/huml-lang/pyhuml)           |
-| Rust        | [@huml-lang/huml-rs](https://github.com/huml-lang/huml-rs)         |
 | OCaml       | [@nikochiko/huml-ml](https://github.com/nikochiko/huml-ml)         |
+| Python      | [@huml-lang/pyhuml](https://github.com/huml-lang/pyhuml)           |
+| Ruby        | [@djbender/hummel](https://github.com/djbender/hummel)             |
+| Rust        | [@huml-lang/huml-rs](https://github.com/huml-lang/huml-rs)         |
 | Standard ML | [@Fred-Milhorn/huml-sml](https://github.com/Fred-Milhorn/huml-sml) |
 
 
