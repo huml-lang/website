@@ -135,6 +135,16 @@ ul.flat {
         margin-bottom: 10px;
     }
 
+blockquote {
+    border-left: 10px solid var(--primary);
+    margin-left: 0;
+    padding: 10px 15px;
+    background: #eee;
+}
+    blockquote p:last-child {
+        margin-bottom: 0;
+    }
+
 button, .button {
     background: var(--primary);
     text-decoration: none;
