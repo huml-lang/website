@@ -136,7 +136,7 @@ function updateEditorMode(editor, format) {
 
 // Convert content from left to right format.
 function convertContent() {
-    const content = leftEditor.getValue().trim();
+    const content = leftEditor.getValue();
     const leftFormat = document.querySelector('#format-left').value;
     const rightFormat = document.querySelector('#format-right').value;
 
