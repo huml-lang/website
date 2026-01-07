@@ -279,7 +279,8 @@ function copyToClipboard(el, side) {
 
 // Set example content for demonstration.
 function setExampleContent() {
-    const str = `# A sample HUML document.
+    const str = `\
+# A sample HUML document.
 website::
   hostname: "huml.io"
   ports:: 80, 443 # Inline list.
