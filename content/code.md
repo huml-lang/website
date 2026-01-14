@@ -19,6 +19,7 @@ This page contains links to various HUML-related resources such as parser implem
 | Rust        | [@huml-lang/huml-rs](https://github.com/huml-lang/huml-rs)         |
 | Standard ML | [@Fred-Milhorn/huml-sml](https://github.com/Fred-Milhorn/huml-sml) |
 | Elixir      | [@rahultumpala/huml-ex](https://github.com/rahultumpala/huml-ex)   |
+| Zig         | [@t0mri/huml](https://codeberg.org/t0mri/huml)                     |
 
 
 ## Plugins and extensions
