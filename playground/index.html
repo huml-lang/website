@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>HUML Playground - Convert between HUML, JSON, YAML, TOML</title>
+  
+  
+  
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://huml.io/rss.xml">
+  
+
+  
+  <meta name="description" content="Try out HUML by converting data between various formats in the browser." />
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:image" content="https://huml.io/static/thumb.png?h=3aa3b3a5c8a4070cdfa0">
+  <link rel="shortcut icon" href="https://huml.io/static/favicon.png" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://huml.io/static/base.css?h=3830e68890e9c49262ad" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://huml.io/static/style.css?h=73f78d0cc84bb2ab9d8a" />
+</head>
+
+<body class=" page page-playground">
+  
+
+<main class="container main">
+  <header class="header row">
+    <div class="col-5 col-fix">
+      <div class="logo"><a href="https://huml.io"><img src="https://huml.io/static/logo.svg" alt="HUML :: Human-oriented Markup Language" /></a></div>
+    </div>
+    <nav class="col-7 col-fix nav">
+      <input type="checkbox" id="nav-toggle" />
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle nav">☰</label>
+
+      <div class="items">
+        <a href="https:&#x2F;&#x2F;huml.io" >Home</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;specifications&#x2F;v0-2-0&#x2F;" >Specification (v0.2.0)</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;code&#x2F;" >Code</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;playground&#x2F;" class="active">Playground</a>
+      </div>
+    </nav>
+  </header>
+  <section class="section content">
+    
+<h1>Playground</h1>
+<p>Convert between HUML, JSON, YAML, TOML</p>
+
+
+<section class="playground" style="display: none">
+    <div class="row">
+        <div class="col-6">
+            <div class="editor editor-wrap-left">
+                <div class="controls">
+                    <div class="row">
+                        <div class="col-7">
+                            <span class="title">Input</span>
+                            <select id="format-left">
+                                <option value="huml">HUML</option>
+                                <option value="json">JSON</option>
+                                <option value="yaml">YAML</option>
+                                <option value="toml">TOML</option>
+                            </select>
+                            <a href="#" role="button" aria-label="Copy to clipboard" class="btn-copy" data-side="left">Copy</a>
+                        </div>
+                        <div class="col-5 convert">
+                            <a href="#" role="button" class="btn-swap">Swap</a>
+                            <button id="btn-convert">Convert →</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <textarea id="editor-left" class="code-editor" placeholder="Paste your content here..."></textarea>
+                    <small class="note">You can drag and drop huml, yaml, json, or toml file into the editor</small>
+                </div>
+                <div id="error-left" class="error-message"></div>
+            </div>
+        </div><!-- col -->
+        
+        <div class="col-6 editor-wrap-right">
+            <div class="editor">
+                <div class="converter-panel">
+                    <div class="controls">
+                        <span class="title">Output</span>
+                        <select id="format-right">
+                            <option value="huml">HUML</option>
+                            <option value="json">JSON</option>
+                            <option value="yaml">YAML</option>
+                            <option value="toml">TOML</option>
+                        </select>
+                        <a href="#" role="button" aria-label="Copy to clipboard" class="btn-copy" data-side="right">Copy</a>
+                    </div>
+                    <div class="editor-container">
+                        <textarea id="editor-right" class="code-editor"readonly></textarea>
+                    </div>
+                    <div id="error-right" class="error-message"></div>
+                </div>
+            </div>
+        </div><!-- col -->
+    </div><!-- row -->
+</section>
+
+<!-- Truckloads of assets from here on -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/ayu-mirage.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/foldgutter.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="https://huml.io/static/playground.css?h=c112f222f7e68db812ba" />
+
+<!-- CodeMirror -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/yaml/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/toml/toml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/foldcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/foldgutter.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/brace-fold.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/fold/brace-fold.min.js"></script>
+<script src="https://huml.io/static/codemirror5-huml.min.js"></script>
+
+<!-- Parser libs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script type="module">
+    import iarnatoml from 'https://cdn.jsdelivr.net/npm/@iarna/toml@2.2.5/+esm'
+    window.jsToml = iarnatoml;
+</script>
+<script type="module">
+    import { parse, stringify } from 'https://huml.io/static/huml.min.js'
+    window.jsHuml = { parse, stringify };
+</script>
+
+<script src="https://huml.io/static/playground.js"></script>
+
+
+  </section>
+  
+  <footer class="footer"><a href="https://nadh.in">Kailash Nadh</a> / Website content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/"> CC BY-SA 4.0</a></footer>
+</main>
+<script>
+(() => {
+  document.querySelectorAll('a[data-copy-clipboard]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const pre = [...document.querySelectorAll('pre')]
+        .reverse()
+        .find(el => el.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING);
+      if (pre) {
+        navigator.clipboard.writeText(pre.innerText);
+        const originalText = link.innerText;
+        link.innerText = 'Copied ✓';
+        setTimeout(() => link.innerText = originalText, 2000);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
