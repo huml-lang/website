@@ -37,3 +37,8 @@ This page contains links to various HUML-related resources such as parser implem
 | Name                                    | Description                                               |
 | --------------------------------------- | --------------------------------------------------------- |
 | [koanf](https://github.com/knadh/koanf) | Configuration management library for Go with HUML support |
+
+## Tools
+| Name                                | Description                                              |
+| ----------------------------------- | -------------------------------------------------------- |
+| [hq](https://github.com/rhnvrm/hq)  | A jq/yq-like command-line processor for HUML             |
