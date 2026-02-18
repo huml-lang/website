@@ -9,17 +9,21 @@ This page contains links to various HUML-related resources such as parser implem
 
 ## Libraries
 
-| Language    | Library                                                            |
-| ----------- | ------------------------------------------------------------------ |
-| Go          | [@huml-lang/go-huml](https://github.com/huml-lang/go-huml)         |
-| Javascript  | [@huml-lang/huml-js](https://github.com/huml-lang/huml-js)         |
-| OCaml       | [@nikochiko/huml-ml](https://github.com/nikochiko/huml-ml)         |
-| Python      | [@huml-lang/pyhuml](https://github.com/huml-lang/pyhuml)           |
-| Ruby        | [@djbender/hummel](https://github.com/djbender/hummel)             |
-| Rust        | [@huml-lang/huml-rs](https://github.com/huml-lang/huml-rs)         |
-| Standard ML | [@Fred-Milhorn/huml-sml](https://github.com/Fred-Milhorn/huml-sml) |
-| Elixir      | [@rahultumpala/huml-ex](https://github.com/rahultumpala/huml-ex)   |
-| Zig         | [@~sphericalkat/humlz](https://git.sr.ht/~sphericalkat/humlz)      |
+| Language    | Library                                                                      |
+| ----------- | ---------------------------------------------------------------------------- |
+| Elixir      | [@rahultumpala/huml-ex](https://github.com/rahultumpala/huml-ex)             |
+| Go          | [@huml-lang/go-huml](https://github.com/huml-lang/go-huml)                   |
+| Java        | [@CretanBull/huml4j](https://github.com/CretanBull/huml4j)                   |
+| Javascript  | [@huml-lang/huml-js](https://github.com/huml-lang/huml-js)                   |
+| Lua         | [@Kyle-McDangersword/luahuml](https://github.com/Kyle-McDangersword/luahuml) |
+| OCaml       | [@nikochiko/huml-ml](https://github.com/nikochiko/huml-ml)                   |
+| Python      | [@huml-lang/pyhuml](https://github.com/huml-lang/pyhuml)                     |
+| Ruby        | [@djbender/hummel](https://github.com/djbender/hummel)                       |
+| Rust        | [@huml-lang/huml-rs](https://github.com/huml-lang/huml-rs)                   |
+| Standard ML | [@Fred-Milhorn/huml-sml](https://github.com/Fred-Milhorn/huml-sml)           |
+| Zig         | [@t0mri/huml](https://codeberg.org/t0mri/huml)                               |
+| Zig         | [@~sphericalkat/humlz](https://git.sr.ht/~sphericalkat/humlz)                |
+
 
 
 ## Plugins and extensions
@@ -36,3 +40,8 @@ This page contains links to various HUML-related resources such as parser implem
 | Name                                    | Description                                               |
 | --------------------------------------- | --------------------------------------------------------- |
 | [koanf](https://github.com/knadh/koanf) | Configuration management library for Go with HUML support |
+
+## Tools
+| Name                                | Description                                              |
+| ----------------------------------- | -------------------------------------------------------- |
+| [hq](https://github.com/rhnvrm/hq)  | A jq/yq-like command-line processor for HUML             |

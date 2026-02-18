@@ -44,4 +44,4 @@ Still, why YET another markup language? <strong>Why not?</strong>
 - Provide as few ways as possible—preferably one—of representing something.
 - Maintain strict formatting for uniformity, eliminating the need for formatters.
 
-<br />[Read the specs &rarr;](/specifications/v0-1-0)
+<br />[Read the specs &rarr;](/specifications/v0-2-0)
