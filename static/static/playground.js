@@ -136,7 +136,7 @@ function updateEditorMode(editor, format) {
 
 // Convert content from left to right format.
 function convertContent() {
-    const content = leftEditor.getValue().trim();
+    const content = leftEditor.getValue();
     const leftFormat = document.querySelector('#format-left').value;
     const rightFormat = document.querySelector('#format-right').value;
 
@@ -279,7 +279,7 @@ function copyToClipboard(el, side) {
 
 // Set example content for demonstration.
 function setExampleContent() {
-    const str = `
+    const str = `\
 # A sample HUML document.
 website::
   hostname: "huml.io"
@@ -302,7 +302,7 @@ haikus::
     Lines fall into their places
     Nothing out of place
   """
-    `;
+`;
 
     document.querySelector('#format-left').value = 'huml';
     document.querySelector('#format-right').value = 'json';
