@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>HUML example</title>
+  
+  
+  
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://huml.io/rss.xml">
+  
+
+  
+  <meta name="description" content="HUML is a simple, strict, serialization language for documents, datasets, and configuration." />
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:image" content="https://huml.io/static/thumb.png?h=3aa3b3a5c8a4070cdfa0">
+  <link rel="shortcut icon" href="https://huml.io/static/favicon.png" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://huml.io/static/base.css?h=3830e68890e9c49262ad" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://huml.io/static/style.css?h=73f78d0cc84bb2ab9d8a" />
+</head>
+
+<body class=" page page-example">
+  
+
+<main class="container main">
+  <header class="header row">
+    <div class="col-5 col-fix">
+      <div class="logo"><a href="https://huml.io"><img src="https://huml.io/static/logo.svg" alt="HUML :: Human-oriented Markup Language" /></a></div>
+    </div>
+    <nav class="col-7 col-fix nav">
+      <input type="checkbox" id="nav-toggle" />
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle nav">☰</label>
+
+      <div class="items">
+        <a href="https:&#x2F;&#x2F;huml.io" >Home</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;specifications&#x2F;v0-2-0&#x2F;" >Specification (v0.2.0)</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;code&#x2F;" >Code</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;playground&#x2F;" >Playground</a>
+      </div>
+    </nav>
+  </header>
+  <section class="section content">
+    
+<section class="page">
+  <pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="font-style:italic;color:#5c6370;"># This is the root dictionary for our application configuration.
+</span><span style="color:#e06c75;">application_config</span><span>::
+</span><span>  </span><span style="color:#e06c75;">application_name</span><span>: </span><span style="color:#98c379;">&quot;HUML Showcase Suite&quot;
+</span><span>  </span><span style="color:#e06c75;">version</span><span>: </span><span style="color:#98c379;">&quot;1.0.0-beta&quot;
+</span><span>  </span><span style="color:#e06c75;">environment</span><span>: </span><span style="color:#98c379;">&quot;development&quot; </span><span style="font-style:italic;color:#5c6370;"># Can be &#39;production&#39;, &#39;staging&#39;, etc.
+</span><span>  </span><span style="color:#e06c75;">debug_mode</span><span>: </span><span style="color:#d19a66;">true
+</span><span>  </span><span style="color:#e06c75;">retry_attempts</span><span>: </span><span style="color:#d19a66;">5
+</span><span>  </span><span style="color:#e06c75;">timeout_seconds</span><span>: </span><span style="color:#d19a66;">30.5
+</span><span>  </span><span style="color:#e06c75;">inline_list</span><span>:: </span><span style="color:#d19a66;">1</span><span>, </span><span style="color:#d19a66;">2</span><span>, </span><span style="color:#d19a66;">3</span><span>, </span><span style="color:#98c379;">&quot;test&quot;
+</span><span>  </span><span style="color:#e06c75;">feature_flags</span><span>:: </span><span style="font-style:italic;color:#5c6370;"># A nested dictionary for feature toggles
+</span><span>    </span><span style="color:#e06c75;">new_dashboard_enabled</span><span>: </span><span style="color:#d19a66;">true
+</span><span>    </span><span style="color:#e06c75;">user_experiment_ab</span><span>: </span><span style="color:#d19a66;">false
+</span><span>    </span><span style="color:#e06c75;">&quot;legacy-system.compatibility_mode&quot;</span><span>: </span><span style="color:#d19a66;">true </span><span style="font-style:italic;color:#5c6370;"># Quoted key
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6370;"># Contact information
+</span><span>  </span><span style="color:#e06c75;">contact_points</span><span>::
+</span><span>    - :: </span><span style="font-style:italic;color:#5c6370;"># List item: inline dictionary for admin
+</span><span>      </span><span style="color:#e06c75;">type</span><span>: </span><span style="color:#98c379;">&quot;admin&quot;
+</span><span>      </span><span style="color:#e06c75;">email</span><span>: </span><span style="color:#98c379;">&quot;admin@example.com&quot;
+</span><span>      </span><span style="color:#e06c75;">phone</span><span>: </span><span style="color:#d19a66;">null </span><span style="font-style:italic;color:#5c6370;"># Null value example
+</span><span>    - :: </span><span style="font-style:italic;color:#5c6370;"># 1List item: multi-line dictionary for support
+</span><span>      </span><span style="color:#e06c75;">type</span><span>: </span><span style="color:#98c379;">&quot;support&quot;
+</span><span>      </span><span style="color:#e06c75;">email</span><span>: </span><span style="color:#98c379;">&quot;support@example.com&quot;
+</span><span>      </span><span style="color:#e06c75;">availability</span><span>::
+</span><span>        </span><span style="color:#e06c75;">weekdays</span><span>: </span><span style="color:#98c379;">&quot;9am - 6pm&quot;
+</span><span>        </span><span style="color:#e06c75;">weekends</span><span>: </span><span style="color:#98c379;">&quot;10am - 2pm&quot;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6370;"># Numeric data types showcase
+</span><span>  </span><span style="color:#e06c75;">numerical_data</span><span>::
+</span><span>    </span><span style="color:#e06c75;">integer_val</span><span>: </span><span style="color:#d19a66;">1_234_567
+</span><span>    </span><span style="color:#e06c75;">float_val</span><span>: -</span><span style="color:#d19a66;">0.00789
+</span><span>    </span><span style="color:#e06c75;">scientific_notation_val</span><span>: </span><span style="color:#d19a66;">6.022e23
+</span><span>    </span><span style="color:#e06c75;">hex_val</span><span>: </span><span style="color:#d19a66;">0xCAFEBABE
+</span><span>    </span><span style="color:#e06c75;">octal_val</span><span>: </span><span style="color:#d19a66;">0o755
+</span><span>    </span><span style="color:#e06c75;">binary_val</span><span>: </span><span style="color:#d19a66;">0b11011001
+</span><span>    </span><span style="color:#e06c75;">empty_integer_list</span><span>:: </span><span style="color:#d19a66;">[] </span><span style="font-style:italic;color:#5c6370;"># Empty list
+</span><span>    </span><span style="color:#e06c75;">empty_mapping</span><span>:: </span><span style="color:#d19a66;">{}    </span><span style="font-style:italic;color:#5c6370;"># Empty dictionary
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6370;"># String variations
+</span><span>  </span><span style="color:#e06c75;">string_examples</span><span>::
+</span><span>    </span><span style="color:#e06c75;">simple_greeting</span><span>: </span><span style="color:#98c379;">&quot;Hello, </span><span style="color:#56b6c2;">\&quot;</span><span style="color:#98c379;">Universe</span><span style="color:#56b6c2;">\&quot;</span><span style="color:#98c379;">!&quot;
+</span><span>    </span><span style="color:#e06c75;">path_example</span><span>: </span><span style="color:#98c379;">&quot;C:</span><span style="color:#56b6c2;">\\</span><span style="color:#98c379;">Users</span><span style="color:#56b6c2;">\\</span><span style="color:#98c379;">Default</span><span style="color:#56b6c2;">\\</span><span style="color:#98c379;">Documents&quot;
+</span><span>    </span><span style="color:#e06c75;">multiline_preserved_poem</span><span>: &quot;&quot;&quot;
+</span><span style="color:#98c379;">
+</span><span style="color:#98c379;">      First line
+</span><span style="color:#98c379;">           Second
+</span><span style="color:#98c379;">        Third Line
+</span><span style="color:#98c379;">    &quot;&quot;&quot;
+</span><span>    </span><span style="color:#e06c75;">multiline_stripped_script</span><span>: &quot;&quot;&quot;
+</span><span style="color:#98c379;">          First line
+</span><span style="color:#98c379;">          Second line
+</span><span style="color:#98c379;">          Third line
+</span><span style="color:#98c379;">    &quot;&quot;&quot;
+</span></code></pre>
+ 
+</section>
+
+  </section>
+  
+  <footer class="footer"><a href="https://nadh.in">Kailash Nadh</a> / Website content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/"> CC BY-SA 4.0</a></footer>
+</main>
+<script>
+(() => {
+  document.querySelectorAll('a[data-copy-clipboard]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const pre = [...document.querySelectorAll('pre')]
+        .reverse()
+        .find(el => el.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING);
+      if (pre) {
+        navigator.clipboard.writeText(pre.innerText);
+        const originalText = link.innerText;
+        link.innerText = 'Copied ✓';
+        setTimeout(() => link.innerText = originalText, 2000);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

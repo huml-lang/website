@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>HUML specification v0.2.0</title>
+  
+  
+  
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://huml.io/rss.xml">
+  
+
+  
+  <meta name="description" content="HUML language specification v0.2.0" />
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:image" content="https://huml.io/static/thumb.png?h=3aa3b3a5c8a4070cdfa0">
+  <link rel="shortcut icon" href="https://huml.io/static/favicon.png" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://huml.io/static/base.css?h=3830e68890e9c49262ad" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://huml.io/static/style.css?h=73f78d0cc84bb2ab9d8a" />
+</head>
+
+<body class="has-toc page page-v0-2-0">
+  
+  <nav class="toc">
+    <strong>Table of contents</strong>
+    
+        <ul>
+            <li>
+                <a href="https://huml.io/specifications/v0-2-0/#huml-specification-v0-2-0">HUML specification v0.2.0</a><ul>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#encoding-and-basic-structure">Encoding and basic structure</a></li>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#data-types">Data types</a></li>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#indentation">Indentation</a></li>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#spaces">Spaces</a></li>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#comments">Comments</a></li>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#keys-and-values">Keys and values</a></li>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#scalars">Scalars</a><ul><li>
+                                            <a href="https://huml.io/specifications/v0-2-0/#strings">Strings</a>
+                                        </li><li>
+                                            <a href="https://huml.io/specifications/v0-2-0/#single-line-strings">Single-line strings</a>
+                                        </li><li>
+                                            <a href="https://huml.io/specifications/v0-2-0/#multi-line-strings">Multi-line strings</a>
+                                        </li></ul></li>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#vectors">Vectors</a><ul><li>
+                                            <a href="https://huml.io/specifications/v0-2-0/#lists">Lists</a>
+                                        </li><li>
+                                            <a href="https://huml.io/specifications/v0-2-0/#dicts">Dicts</a>
+                                        </li></ul></li>
+                    </ul></li>
+            <li>
+                <a href="https://huml.io/specifications/v0-2-0/#example">Example</a><ul>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#why-two-colons">Why ::?</a></li>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#document-root">Document root</a></li>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#kitchensink-example">Kitchensink example</a></li>
+                    </ul></li>
+            <li>
+                <a href="https://huml.io/specifications/v0-2-0/#grammar">Grammar</a><ul>
+                            <li>
+                                <a href="https://huml.io/specifications/v0-2-0/#tokenizer">Tokenizer</a><ul><li>
+                                            <a href="https://huml.io/specifications/v0-2-0/#previous-versions">Previous versions</a>
+                                        </li></ul></li>
+                    </ul></li></ul></nav>
+  
+
+<main class="container main">
+  <header class="header row">
+    <div class="col-5 col-fix">
+      <div class="logo"><a href="https://huml.io"><img src="https://huml.io/static/logo.svg" alt="HUML :: Human-oriented Markup Language" /></a></div>
+    </div>
+    <nav class="col-7 col-fix nav">
+      <input type="checkbox" id="nav-toggle" />
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle nav">☰</label>
+
+      <div class="items">
+        <a href="https:&#x2F;&#x2F;huml.io" >Home</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;specifications&#x2F;v0-2-0&#x2F;" class="active">Specification (v0.2.0)</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;code&#x2F;" >Code</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;playground&#x2F;" >Playground</a>
+      </div>
+    </nav>
+  </header>
+  <section class="section content">
+    
+<section class="page">
+  <h1 id="huml-specification-v0-2-0">HUML specification v0.2.0</h1>
+<p><sup class="tag">Experimental</sup></p>
+<p>HUML is a machine-readable markup language with a focus on readability by humans. It borrows YAML's visual appearance, but avoids its complexities, ambiguities, and dangerous footguns. It is very strict about indentation and spaces specifically to ensure consistent form across contexts for readability.</p>
+<p>HUML is tailored for configuration, documents, and datasets.</p>
+<h2 id="encoding-and-basic-structure">Encoding and basic structure</h2>
+<ul>
+<li>UTF-8 encoding.</li>
+<li>Line breaks: Unix-style (<code>\n</code>).</li>
+<li>Blank lines in the doc are ignored (except inside multi-line strings).</li>
+<li>Optional version directive at the top: <code>%HUML &lt;version&gt;</code> (e.g., <code>%HUML v0.2.0</code>). If this is not present, a parser is to apply the latest version of the specification.</li>
+</ul>
+<h2 id="data-types">Data types</h2>
+<p>HUML supports scalar (string, number, bool, null) and vector (list, dict) data types.</p>
+<table><thead><tr><th>Type</th><th>Description</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>String</strong></td><td>Only canonical (decoded) representation of Unicode strings in keys and values. Unicode and hex sctring escaping with <code>\u</code>, <code>\U</code>, <code>\x</code> are not allowed.</td><td>Allowed: <code>"Hello 🌏"</code><br>Not allowed: <code>"Hello \u1F30F"</code></td></tr>
+<tr><td></td><td><strong>Single-line string value</strong>: Always quoted with double quotes. <code>"</code> and <code>\</code> must be escaped.</td><td><code>"foo"</code><br><code>"Hello World"</code><br><code>"Hi \"all\""</code><br><code>"Back\\Slash"</code></td></tr>
+<tr><td></td><td><strong>Multi-line string value</strong>: Wrapped in <code>"""</code> (three double quotes).</td><td></td></tr>
+<tr><td></td><td><strong>Escape sequences</strong>: Standard escape sequences <code>\n</code>, <code>\f</code>, <code>\r</code>, <code>\t</code>, <code>\v</code> are spported in both keys and values.</td><td></td></tr>
+<tr><td><strong>Number</strong></td><td><strong>Integer</strong></td><td><code>123</code>, <code>+123</code>, <code>-123</code></td></tr>
+<tr><td></td><td><strong>Float</strong> (64-bit, IEEE 754 double-precision floating-point)</td><td><code>3.14</code>, <code>-0.5</code></td></tr>
+<tr><td></td><td><strong>Special values</strong>. The special numerical values are unquoted.</td><td><code>nan</code>, <code>inf</code>, <code>+inf</code>, <code>-inf</code></td></tr>
+<tr><td></td><td><em>Notations</em></td><td></td></tr>
+<tr><td></td><td><strong>Exponent</strong>, denoted by a lowercase <code>e</code></td><td><code>1e10</code>, <code>6.022e23</code></td></tr>
+<tr><td></td><td><strong>Hex</strong>, begins with <code>0x</code></td><td><code>0x1A</code>, <code>0xCAFE</code></td></tr>
+<tr><td></td><td><strong>Octal</strong>, begins with <code>0o</code></td><td><code>0o12</code>, <code>0o755</code></td></tr>
+<tr><td></td><td><strong>Binary</strong>, begins with <code>0b</code></td><td><code>0b1010</code>, <code>0b11011001</code></td></tr>
+<tr><td></td><td>Numbers can have arbitrary underscore characters for readability, which are simply ignored while parsing.</td><td><code>1_00_0000</code></td></tr>
+<tr><td><strong>Boolean</strong></td><td>True or false values.</td><td><code>true</code>, <code>false</code></td></tr>
+<tr><td><strong>Null</strong></td><td>Null value.</td><td><code>null</code></td></tr>
+<tr><td><strong>List</strong></td><td>Array of arbitrary data types.</td><td><code>1, 2, "three"</code></td></tr>
+<tr><td></td><td>Definition can be inline or multi-line.</td><td></td></tr>
+<tr><td></td><td>Multi-line items are prefixed with a <code>-</code>, like a bullet point list.</td><td></td></tr>
+<tr><td></td><td><code>[]</code> is a special signifier used to denote an empty list, e.g., <code>items:: []</code></td><td><code>[]</code></td></tr>
+<tr><td><strong>Dict</strong></td><td>Unordered map of key-value pairs. Keys are strings and values can be of arbitrary data types.</td><td><code>hello: "world", num: 123</code></td></tr>
+<tr><td></td><td>Definition can be inline or multi-line.</td><td></td></tr>
+<tr><td></td><td>Duplicate keys inside a dict are not allowed.</td><td></td></tr>
+<tr><td></td><td><code>{}</code> is a special signifier used to denote an empty dict, e.g., <code>items:: {}</code></td><td><code>{}</code></td></tr>
+</tbody></table>
+<hr />
+<h2 id="indentation">Indentation</h2>
+<ul>
+<li>Strictly 2 spaces per indentation level. For multi-line list and dict vector definitions, indentation represents hierarchy.</li>
+</ul>
+<hr />
+<h2 id="spaces">Spaces</h2>
+<p>The presence of space characters is strictly controlled.</p>
+<ul>
+<li>Trailing spaces are not allowed on any line, including empty lines and comment-only lines, except for content within multi-line strings, where they are treated as content.</li>
+<li>The comment marker <code>#</code> must be immediately followed by one space before the comment contents, e.g., <code># Comment</code> and not <code>#Comment</code>.</li>
+<li>Only a single space is allowed after the indicators <code>:</code>, <code>::</code>, and <code>-</code> and before the subsequent value.</li>
+<li>For multi-line vectors, <code>::</code> must be immediately followed by a line break, unless it is a comment starting with <code>#</code>.</li>
+<li>In inline lists, commas must not have preceding spaces and must be followed by exactly one space, e.g., <code>1, 2, 3</code>.</li>
+</ul>
+<hr />
+<h2 id="comments">Comments</h2>
+<ul>
+<li>Lines beginning with <code>#</code> are comments. Comments can have preceding spaces, but not trailing spaces.</li>
+<li>After <code>#</code>, there must be at least one space before any other character.</li>
+</ul>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="font-style:italic;color:#5c6370;"># Comment-only line
+</span><span style="color:#e06c75;">key</span><span>: </span><span style="color:#98c379;">&quot;value&quot;         </span><span style="font-style:italic;color:#5c6370;"># Inline comment with many preceding spaces.
+</span></code></pre>
+<hr />
+<h2 id="keys-and-values">Keys and values</h2>
+<ul>
+<li>Keys are case-sensitive Unicode strings.
+<ul>
+<li>If (alphanumeric-underscore-dash) <code>a-zA-Z0-9_-</code> and starting with an alphabet, the key does not need to be quoted.<br />e.g., <code>foo: 123, foo-bar: "yes", foo1: true</code></li>
+<li>If any other characters, including spaces, are present, keys must be quoted.<br />e.g., <code>"1foo": 123, "foo bar": 123, "ഭൂമി": "Earth"</code></li>
+</ul>
+</li>
+<li>Scalar keys are denoted by the key followed by a single colon (<code>:</code>).</li>
+<li>Vector keys are denoted by the key followed by double colons (<code>::</code>).</li>
+<li>No spaces are allowed before the <code>:</code> or <code>::</code>, and they must be followed by exactly one space before the value.</li>
+<li>The root of the document does not need a <code>:</code> or <code>::</code> at the top as the entire document's type is inferred from the first value that is encountered in the document.</li>
+</ul>
+<hr />
+<h2 id="scalars">Scalars</h2>
+<p>Scalars (string, number, boolean, null) are denoted by a single colon (<code>:</code>).</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#e06c75;">key</span><span>: </span><span style="color:#98c379;">&quot;value&quot;
+</span><span style="color:#e06c75;">number</span><span>: </span><span style="color:#d19a66;">123
+</span><span style="color:#e06c75;">boolean</span><span>: </span><span style="color:#d19a66;">true
+</span><span style="color:#e06c75;">type</span><span>: </span><span style="color:#d19a66;">null
+</span></code></pre>
+<h3 id="strings">Strings</h3>
+<p>Strings can only be represented in their canonical (decoded) form. That is, encoded representations such as <code>\u</code> and <code>\U</code> are not permitted to ensure consitency and readability.</p>
+<h3 id="single-line-strings">Single-line strings</h3>
+<p>Single-line strings may include the following formatting control characters using C-style escape notation with backslashes.</p>
+<table><thead><tr><th style="text-align: left">Escape</th><th style="text-align: left">Description</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>\b</code></td><td style="text-align: left">Backspace</td></tr>
+<tr><td style="text-align: left"><code>\f</code></td><td style="text-align: left">Form feed</td></tr>
+<tr><td style="text-align: left"><code>\n</code></td><td style="text-align: left">Newline (LF)</td></tr>
+<tr><td style="text-align: left"><code>\r</code></td><td style="text-align: left">Carriage return</td></tr>
+<tr><td style="text-align: left"><code>\t</code></td><td style="text-align: left">Horizontal tab</td></tr>
+<tr><td style="text-align: left"><code>\v</code></td><td style="text-align: left">Vertical tab</td></tr>
+</tbody></table>
+<h3 id="multi-line-strings">Multi-line strings</h3>
+<p>In multi-line string blocks, no escaping is necessary. Characters are treated literally. As the beginning and ending markers can be derived from the indentation, there is no need to escape the three double quotes themselves in the string content.</p>
+<h4 id="preserve-spaces">Preserve spaces: <code>"""</code></h4>
+<p>The content block must be indented by one level (2 spaces) relative to the key. These initial 2 spaces on each line is the minimum required indentation and is not considered as spaces. All other preceding and all trailing spaces are preserved as content. The opening indicator <code>"""</code> must be after the indicator <code>:</code> separated by exactly one space. The closing indicator must be at the indentation level of the key.</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#e06c75;">description</span><span>: &quot;&quot;&quot;
+</span><span style="color:#98c379;">  Line 1
+</span><span style="color:#98c379;">   Line 2
+</span><span style="color:#98c379;">    Line 3
+</span><span style="color:#98c379;">          All spaces are preserved.
+</span><span style="color:#98c379;">&quot;&quot;&quot;
+</span></code></pre>
+<p>is parsed as:</p>
+<pre style="background-color:#282c34;color:#abb2bf;"><code><span>Line 1
+</span><span> Line 2
+</span><span>  Line 3
+</span><span>        All spaces are preserved.
+</span></code></pre>
+<hr />
+<h2 id="vectors">Vectors</h2>
+<p>Vectors are denoted by double colons (<code>::</code>) and can be lists (arrays) or dicts (unordered key-value maps or dictionaries).</p>
+<h3 id="lists">Lists</h3>
+<ul>
+<li><strong>Inline:</strong> Comma-separated without trailing commas. Inline list items can only be scalar values and cannot contain vectors or nesting. They are meant to be a readability shortcut for small lists.</li>
+<li><strong>Multi-line:</strong> A hyphen <code>-</code> denotes a list item, indented by 2 spaces relative to its parent. Multi-line lists can be nested and can contain vectors.</li>
+<li><strong>Empty list:</strong> A vector can be marked as an empty list with the special value <code>[]</code>.</li>
+</ul>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#e06c75;">inline_list</span><span>:: </span><span style="color:#d19a66;">1</span><span>, </span><span style="color:#d19a66;">2</span><span>, </span><span style="color:#98c379;">&quot;three&quot;
+</span><span>
+</span><span style="color:#e06c75;">multiline_list</span><span>::
+</span><span>  - </span><span style="color:#d19a66;">1
+</span><span>  - </span><span style="color:#d19a66;">2
+</span><span>  - </span><span style="color:#98c379;">&quot;three&quot;
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># [1, 2, &quot;three&quot;, [1, 2, &quot;three&quot;]]
+</span><span style="color:#e06c75;">nested_list</span><span>::
+</span><span>  - </span><span style="color:#d19a66;">1
+</span><span>  - </span><span style="color:#d19a66;">2
+</span><span>  - </span><span style="color:#98c379;">&quot;three&quot;
+</span><span>  - ::
+</span><span>    - </span><span style="color:#d19a66;">1
+</span><span>    - </span><span style="color:#d19a66;">2
+</span><span>    - </span><span style="color:#98c379;">&quot;three&quot;
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># [{&quot;one&quot;: 1, &quot;foo&quot;: &quot;bar&quot;}, {&quot;two&quot;: 2, &quot;foo&quot;: &quot;baz&quot;}]
+</span><span style="color:#e06c75;">list_of_dicts</span><span>::
+</span><span>   - ::
+</span><span>     </span><span style="color:#e06c75;">one</span><span>: </span><span style="color:#d19a66;">1
+</span><span>     </span><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#98c379;">&quot;bar&quot;
+</span><span>   - ::
+</span><span>     </span><span style="color:#e06c75;">two</span><span>: </span><span style="color:#d19a66;">2
+</span><span>     </span><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#98c379;">&quot;baz&quot;
+</span><span>
+</span><span style="color:#e06c75;">empty_list</span><span>:: </span><span style="color:#d19a66;">[]
+</span></code></pre>
+<h3 id="dicts">Dicts</h3>
+<ul>
+<li><strong>Inline:</strong> Keys inside a dict are <code>key: value</code> pairs, comma-separated without trailing commas. Inline dicts can only contain scalar key-values and cannot contain vectors or nesting. They are meant to be a readability shortcut for small dictionaries.</li>
+<li><strong>Multi-line:</strong> Keys inside a dict are <code>key: value</code> on a line indented by 2 spaces relative to its parent. Multi-line dicts can be nested and can contain vectors.</li>
+<li><strong>Empty dict:</strong> A vector can be marked as an empty dict with the special value <code>{}</code>.</li>
+</ul>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#e06c75;">inline_dict</span><span>:: </span><span style="color:#e06c75;">one</span><span>: </span><span style="color:#d19a66;">1</span><span>, </span><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#98c379;">&quot;bar&quot;
+</span><span>
+</span><span style="color:#e06c75;">multiline_dict</span><span>::
+</span><span>  </span><span style="color:#e06c75;">one</span><span>: </span><span style="color:#d19a66;">1
+</span><span>  </span><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#98c379;">&quot;bar&quot;
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># {&quot;one&quot;: 1, &quot;foo&quot;: &quot;bar&quot;, &quot;nested&quot;: {&quot;two&quot;: 2, &quot;foo&quot;: &quot;baz&quot;}}
+</span><span style="color:#e06c75;">nested_dict</span><span>::
+</span><span>  </span><span style="color:#e06c75;">one</span><span>: </span><span style="color:#d19a66;">1
+</span><span>  </span><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#98c379;">&quot;bar&quot;
+</span><span>  </span><span style="color:#e06c75;">nested</span><span>::
+</span><span>    </span><span style="color:#e06c75;">two</span><span>: </span><span style="color:#d19a66;">2
+</span><span>    </span><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#98c379;">&quot;baz&quot;
+</span><span>
+</span><span style="color:#e06c75;">empty_dict</span><span>:: </span><span style="color:#d19a66;">{}
+</span></code></pre>
+<hr />
+<h1 id="example">Example</h1>
+<h2 id="why-two-colons">Why <code>::</code>?</h2>
+<ol>
+<li>The indicator <code>::</code> immediately makes it apparent that what follows is a vector, to both human readers and parsers. Less guessing.</li>
+</ol>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="font-style:italic;color:#5c6370;"># Inline list: [1, 2, 3, &quot;four&quot;]
+</span><span style="color:#e06c75;">foo</span><span>:: </span><span style="color:#d19a66;">1</span><span>, </span><span style="color:#d19a66;">2</span><span>, </span><span style="color:#d19a66;">3</span><span>, </span><span style="color:#98c379;">&quot;four&quot;
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># Inline dict: {&quot;foo&quot;: {&quot;bar&quot;: &quot;baz&quot;, &quot;one&quot;: 1}}
+</span><span style="color:#e06c75;">foo</span><span>:: </span><span style="color:#e06c75;">bar</span><span>: </span><span style="color:#98c379;">&quot;baz&quot;</span><span>, </span><span style="color:#e06c75;">one</span><span>: </span><span style="color:#d19a66;">1
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># Multi-line list
+</span><span style="color:#e06c75;">foo</span><span>::
+</span><span>  - </span><span style="color:#d19a66;">1
+</span><span>  - </span><span style="color:#d19a66;">2
+</span><span>  - </span><span style="color:#d19a66;">3
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># Multi-line dict
+</span><span style="color:#e06c75;">foo</span><span>::
+</span><span>  </span><span style="color:#e06c75;">bar</span><span>: </span><span style="color:#98c379;">&quot;baz&quot;
+</span><span>  </span><span style="color:#e06c75;">one</span><span>: </span><span style="color:#d19a66;">1
+</span></code></pre>
+<ol start="2">
+<li>It permits vectors to be defined inline without additional syntax such as <code>[ ... ]</code> or <code>{ ... }</code>. Opening and closing enclosures bring in complexities of keeping track of nesting and balancing closures, both for humans and parsers.</li>
+</ol>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="font-style:italic;color:#5c6370;"># This is a list with one item: key = [&quot;one&quot;]
+</span><span style="color:#e06c75;">key</span><span>:: </span><span style="color:#98c379;">&quot;one&quot;
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># Without :: it is not possible to represent an inline list
+</span><span style="font-style:italic;color:#5c6370;"># without an enclosure such as [ ... ]. For example, key: [&quot;one&quot;]
+</span><span style="font-style:italic;color:#5c6370;"># Here, key = &quot;one&quot;
+</span><span style="color:#e06c75;">key</span><span>: </span><span style="color:#98c379;">&quot;one&quot;
+</span></code></pre>
+<ol start="3">
+<li>It avoids several ambiguities. In YAML, for example:</li>
+</ol>
+<pre data-lang="yaml" style="background-color:#282c34;color:#abb2bf;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="font-style:italic;color:#5c6370;"># Although this looks like a list, it is a string: foo = &quot;1, 2, 3&quot;
+</span><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#98c379;">1, 2, 3
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># Square brackets denote a list.
+</span><span style="color:#e06c75;">foo</span><span>: [</span><span style="color:#d19a66;">1</span><span>, </span><span style="color:#d19a66;">2</span><span>, </span><span style="color:#d19a66;">3</span><span>]
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># Square brackets over multiple lines are also a list.
+</span><span style="color:#e06c75;">foo</span><span>: [
+</span><span style="color:#d19a66;">1</span><span>,
+</span><span> </span><span style="color:#d19a66;">2</span><span>,
+</span><span>  </span><span style="color:#d19a66;">3</span><span>,
+</span><span>]
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># And this is also a list.
+</span><span style="color:#e06c75;">foo</span><span>:
+</span><span>- </span><span style="color:#d19a66;">1
+</span><span>- </span><span style="color:#d19a66;">2
+</span><span>- </span><span style="color:#d19a66;">3
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># Although this looks like a nested list,
+</span><span style="font-style:italic;color:#5c6370;"># it actually translates to: {&quot;foo&quot;: [&quot;1 - 2 - 3&quot;]}
+</span><span style="font-style:italic;color:#5c6370;"># WUT?
+</span><span style="color:#e06c75;">foo</span><span>:
+</span><span> - </span><span style="color:#d19a66;">1
+</span><span>  - </span><span style="color:#d19a66;">2
+</span><span>  - </span><span style="color:#d19a66;">3
+</span></code></pre>
+<h2 id="document-root">Document root</h2>
+<p>An empty HUML document (ignoring comments) is by default considered undefined. Since the root of the document does not have a key, an explicit indicator <code>:</code> or <code>::</code> is not required. The document's type is inferred dynamically from the first encounter of vector or scalar values. Any subsequent type or value that appears throws a parser error, unless they are child elements of a vector.</p>
+<p>Various scenarios are illustrated below.</p>
+<p>The document is evaluated to the boolean <code>true</code>. No subsequent keys, values, or data types are permitted.</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#d19a66;">true
+</span></code></pre>
+<p>The document is evaluated to the string <code>"Hello, world"</code>. No subsequent keys, values, or data types are permitted.</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#98c379;">&quot;Hello, world&quot;
+</span></code></pre>
+<p>The document is evaluated to the list <code>[1, 2, "three"]</code>. Note that there is no <code>::</code> indicator at the root as the vector value is directly at the root of the document without a key. No subsequent keys, values, or data types are permitted outside of the list elements. Since this is an inline list, no nesting is permitted either.</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#d19a66;">1</span><span>, </span><span style="color:#d19a66;">2</span><span>, </span><span style="color:#98c379;">&quot;three&quot;
+</span></code></pre>
+<p>The document is evaluated to the list <code>[1, 2, "three"]</code>. Note that there is no <code>::</code> indicator at the root as the vector value is directly at the root of the document without a key. No subsequent keys, values, or data types are permitted outside of the list elements.</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span>- </span><span style="color:#d19a66;">1
+</span><span>- </span><span style="color:#d19a66;">2
+</span><span>- </span><span style="color:#98c379;">&quot;three&quot;
+</span></code></pre>
+<p>The document is evaluated to the dict <code>{"foo": 1, "bar": "two"}</code>. Note that there is no <code>::</code> indicator at the root as the vector value is directly at the root of the document without a parent key. Since this is an inline dict, no further nesting is permitted.</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#d19a66;">1</span><span>, bar: </span><span style="color:#98c379;">&quot;two&quot;
+</span></code></pre>
+<p>The document is evaluated to the dict <code>{"foo": 1, "bar": "two", "baz": {"foo": "child"}}</code>. Note that there is no <code>::</code> indicator at the root as the vector value is directly at the root of the document without a key. Since the whole document in itself is now a dict, new keys and arbitrary nested types under them are permitted.</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#d19a66;">1
+</span><span style="color:#e06c75;">bar</span><span>: </span><span style="color:#98c379;">&quot;two&quot;
+</span><span style="color:#e06c75;">baz</span><span>::
+</span><span>  </span><span style="color:#e06c75;">foo</span><span>: </span><span style="color:#98c379;">&quot;child&quot;
+</span></code></pre>
+<p>The document is evaluated to the empty dict <code>{}</code> (special indicator). No subsequent keys, values, or data types are permitted.</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#d19a66;">{}
+</span></code></pre>
+<p>The document is evaluated to the empty list <code>[]</code> (special indicator). No subsequent keys, values, or data types are permitted.</p>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="color:#d19a66;">[]
+</span></code></pre>
+<hr />
+<h2 id="kitchensink-example">Kitchensink example</h2>
+<pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="font-style:italic;color:#5c6370;"># This is the root dictionary for our application configuration.
+</span><span style="color:#e06c75;">application_config</span><span>::
+</span><span>  </span><span style="color:#e06c75;">application_name</span><span>: </span><span style="color:#98c379;">&quot;HUML Showcase Suite&quot;
+</span><span>  </span><span style="color:#e06c75;">version</span><span>: </span><span style="color:#98c379;">&quot;1.0.0-beta&quot;
+</span><span>  </span><span style="color:#e06c75;">environment</span><span>: </span><span style="color:#98c379;">&quot;development&quot; </span><span style="font-style:italic;color:#5c6370;"># Can be &#39;production&#39;, &#39;staging&#39;, etc.
+</span><span>  </span><span style="color:#e06c75;">debug_mode</span><span>: </span><span style="color:#d19a66;">true
+</span><span>  </span><span style="color:#e06c75;">retry_attempts</span><span>: </span><span style="color:#d19a66;">5
+</span><span>  </span><span style="color:#e06c75;">timeout_seconds</span><span>: </span><span style="color:#d19a66;">30.5
+</span><span>  </span><span style="color:#e06c75;">feature_flags</span><span>:: </span><span style="font-style:italic;color:#5c6370;"># A nested dictionary for feature toggles
+</span><span>    </span><span style="color:#e06c75;">new_dashboard_enabled</span><span>: </span><span style="color:#d19a66;">true
+</span><span>    </span><span style="color:#e06c75;">user_experiment_ab</span><span>: </span><span style="color:#d19a66;">false
+</span><span>    </span><span style="color:#e06c75;">&quot;legacy-system.compatibility_mode&quot;</span><span>: </span><span style="color:#d19a66;">true </span><span style="font-style:italic;color:#5c6370;"># Quoted key
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6370;"># Contact information
+</span><span>  </span><span style="color:#e06c75;">contact_points</span><span>::
+</span><span>    - :: </span><span style="font-style:italic;color:#5c6370;"># List item: inline dictionary for admin
+</span><span>      </span><span style="color:#e06c75;">type</span><span>: </span><span style="color:#98c379;">&quot;admin&quot;
+</span><span>      </span><span style="color:#e06c75;">email</span><span>: </span><span style="color:#98c379;">&quot;admin@example.com&quot;
+</span><span>      </span><span style="color:#e06c75;">phone</span><span>: </span><span style="color:#d19a66;">null </span><span style="font-style:italic;color:#5c6370;"># Null value example
+</span><span>    - :: </span><span style="font-style:italic;color:#5c6370;"># List item: multi-line dictionary for support
+</span><span>      </span><span style="color:#e06c75;">type</span><span>: </span><span style="color:#98c379;">&quot;support&quot;
+</span><span>      </span><span style="color:#e06c75;">email</span><span>: </span><span style="color:#98c379;">&quot;support@example.com&quot;
+</span><span>      </span><span style="color:#e06c75;">availability</span><span>::
+</span><span>        </span><span style="color:#e06c75;">weekdays</span><span>: </span><span style="color:#98c379;">&quot;9am - 6pm&quot;
+</span><span>        </span><span style="color:#e06c75;">weekends</span><span>: </span><span style="color:#98c379;">&quot;10am - 2pm&quot;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6370;"># Numeric data types showcase
+</span><span>  </span><span style="color:#e06c75;">numerical_data</span><span>::
+</span><span>    </span><span style="color:#e06c75;">integer_val</span><span>: </span><span style="color:#d19a66;">1_234_567
+</span><span>    </span><span style="color:#e06c75;">float_val</span><span>: -</span><span style="color:#d19a66;">0.00789
+</span><span>    </span><span style="color:#e06c75;">scientific_notation_val</span><span>: </span><span style="color:#d19a66;">6.022e23
+</span><span>    </span><span style="color:#e06c75;">hex_val</span><span>: </span><span style="color:#d19a66;">0xCAFEBABE
+</span><span>    </span><span style="color:#e06c75;">octal_val</span><span>: </span><span style="color:#d19a66;">0o755
+</span><span>    </span><span style="color:#e06c75;">binary_val</span><span>: </span><span style="color:#d19a66;">0b11011001
+</span><span>    </span><span style="color:#e06c75;">infinity_positive</span><span>: +</span><span style="color:#d19a66;">inf
+</span><span>    </span><span style="color:#e06c75;">infinity_negative</span><span>: -</span><span style="color:#d19a66;">inf
+</span><span>    </span><span style="color:#e06c75;">not_a_number</span><span>: </span><span style="color:#d19a66;">nan
+</span><span>    </span><span style="color:#e06c75;">empty_integer_list</span><span>:: </span><span style="color:#d19a66;">[] </span><span style="font-style:italic;color:#5c6370;"># Empty list
+</span><span>    </span><span style="color:#e06c75;">empty_mapping</span><span>:: </span><span style="color:#d19a66;">{}    </span><span style="font-style:italic;color:#5c6370;"># Empty dictionary
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6370;"># String variations
+</span><span>  </span><span style="color:#e06c75;">string_examples</span><span>::
+</span><span>    </span><span style="color:#e06c75;">simple_greeting</span><span>: </span><span style="color:#98c379;">&quot;Hello, </span><span style="color:#56b6c2;">\&quot;</span><span style="color:#98c379;">Universe</span><span style="color:#56b6c2;">\&quot;</span><span style="color:#98c379;">!&quot;
+</span><span>    </span><span style="color:#e06c75;">path_example</span><span>: </span><span style="color:#98c379;">&quot;C:</span><span style="color:#56b6c2;">\\</span><span style="color:#98c379;">Users</span><span style="color:#56b6c2;">\\</span><span style="color:#98c379;">Default</span><span style="color:#56b6c2;">\\</span><span style="color:#98c379;">Documents&quot;
+</span><span>    </span><span style="color:#e06c75;">multiline_preserved_poem</span><span>: &quot;&quot;&quot;
+</span><span style="color:#98c379;">      The HUML spec, so clear and bright,
+</span><span style="color:#98c379;">        Makes data shine with pure delight.
+</span><span style="color:#98c379;">      No ambiguity, no YAML fright,
+</span><span style="color:#98c379;">      Just structured sense, and pure insight.
+</span><span style="color:#98c379;">    &quot;&quot;&quot;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6370;"># List variations
+</span><span>  </span><span style="color:#e06c75;">data_sources</span><span>::
+</span><span>    - </span><span style="color:#98c379;">&quot;primary_db_connection_string&quot;
+</span><span>    - </span><span style="color:#98c379;">&quot;secondary_api_endpoint_url&quot;
+</span><span>    - </span><span style="color:#98c379;">&quot;192.168.1.100&quot; </span><span style="font-style:italic;color:#5c6370;"># IP address as a string
+</span><span>    - :: </span><span style="font-style:italic;color:#5c6370;"># A list of lists
+</span><span>      - </span><span style="color:#98c379;">&quot;alpha&quot;
+</span><span>      - </span><span style="color:#98c379;">&quot;beta&quot;
+</span><span>      - </span><span style="color:#98c379;">&quot;gamma&quot;
+</span><span>    - </span><span style="color:#d19a66;">true </span><span style="font-style:italic;color:#5c6370;"># A boolean in a list
+</span><span>
+</span><span>  </span><span style="color:#e06c75;">inline_collections</span><span>::
+</span><span>    </span><span style="color:#e06c75;">simple_list</span><span>:: </span><span style="color:#98c379;">&quot;red&quot;</span><span>, </span><span style="color:#98c379;">&quot;green&quot;</span><span>, </span><span style="color:#98c379;">&quot;blue&quot;
+</span><span>    </span><span style="color:#e06c75;">simple_dict</span><span>:: </span><span style="color:#e06c75;">color</span><span>: </span><span style="color:#98c379;">&quot;yellow&quot;</span><span>, </span><span style="color:#e06c75;">intensity</span><span>: </span><span style="color:#d19a66;">0.8</span><span>, </span><span style="color:#e06c75;">transparent</span><span>: </span><span style="color:#d19a66;">false
+</span><span>    </span><span style="font-style:italic;color:#5c6370;"># List of inline dictionaries
+</span><span>    </span><span style="color:#e06c75;">points_of_interest</span><span>::
+</span><span>      - :: </span><span style="color:#e06c75;">x</span><span>: </span><span style="color:#d19a66;">10</span><span>, </span><span style="color:#e06c75;">y</span><span>: </span><span style="color:#d19a66;">20</span><span>, </span><span style="color:#e06c75;">label</span><span>: </span><span style="color:#98c379;">&quot;Start&quot;
+</span><span>      - :: </span><span style="color:#e06c75;">x</span><span>: </span><span style="color:#d19a66;">15</span><span>, </span><span style="color:#e06c75;">y</span><span>: </span><span style="color:#d19a66;">25</span><span>, </span><span style="color:#e06c75;">label</span><span>: </span><span style="color:#98c379;">&quot;Checkpoint 1&quot;
+</span><span>      - :: </span><span style="color:#e06c75;">x</span><span>: </span><span style="color:#d19a66;">30</span><span>, </span><span style="color:#e06c75;">y</span><span>: </span><span style="color:#d19a66;">10</span><span>, </span><span style="color:#e06c75;">label</span><span>: </span><span style="color:#98c379;">&quot;End&quot;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6370;"># Example of a more complex nested structure
+</span><span>  </span><span style="color:#e06c75;">server_nodes</span><span>::
+</span><span>    - :: </span><span style="font-style:italic;color:#5c6370;"># First server node (dictionary)
+</span><span>      </span><span style="color:#e06c75;">id</span><span>: </span><span style="color:#98c379;">&quot;node-alpha-001&quot;
+</span><span>      </span><span style="color:#e06c75;">ip_address</span><span>: </span><span style="color:#98c379;">&quot;10.0.0.1&quot;
+</span><span>      </span><span style="color:#e06c75;">roles</span><span>:: </span><span style="color:#98c379;">&quot;web&quot;</span><span>, </span><span style="color:#98c379;">&quot;api&quot; </span><span style="font-style:italic;color:#5c6370;"># Inline list
+</span><span>      </span><span style="color:#e06c75;">status</span><span>: </span><span style="color:#98c379;">&quot;active&quot;
+</span><span>      </span><span style="color:#e06c75;">&quot;metadata with space&quot;</span><span>: </span><span style="color:#98c379;">&quot;custom server info&quot; </span><span style="font-style:italic;color:#5c6370;"># Quoted key
+</span><span>      </span><span style="color:#e06c75;">config_file_content</span><span>: &quot;&quot;&quot;
+</span><span style="color:#98c379;">        # Sample config for node-alpha-001
+</span><span style="color:#98c379;">        port = 8080
+</span><span style="color:#98c379;">        threads = 16
+</span><span style="color:#98c379;">      &quot;&quot;&quot;
+</span><span>    - :: </span><span style="font-style:italic;color:#5c6370;"># Second server node (dictionary)
+</span><span>      </span><span style="color:#e06c75;">id</span><span>: </span><span style="color:#98c379;">&quot;node-beta-002&quot;
+</span><span>      </span><span style="color:#e06c75;">ip_address</span><span>: </span><span style="color:#98c379;">&quot;10.0.0.2&quot;
+</span><span>      </span><span style="color:#e06c75;">roles</span><span>::
+</span><span>        - </span><span style="color:#98c379;">&quot;database_primary&quot;
+</span><span>        - </span><span style="color:#98c379;">&quot;replication_master&quot;
+</span><span>      </span><span style="color:#e06c75;">status</span><span>: </span><span style="color:#98c379;">&quot;pending_maintenance&quot;
+</span><span>      </span><span style="color:#e06c75;">hardware_specs</span><span>::
+</span><span>        </span><span style="color:#e06c75;">cpu_cores</span><span>: </span><span style="color:#d19a66;">8
+</span><span>        </span><span style="color:#e06c75;">ram_gb</span><span>: </span><span style="color:#d19a66;">64
+</span><span>        </span><span style="color:#e06c75;">storage_tb</span><span>: </span><span style="color:#d19a66;">2
+</span><span>
+</span><span style="font-style:italic;color:#5c6370;"># Another top-level key, independent of &#39;application_config&#39;
+</span><span style="font-style:italic;color:#5c6370;"># This demonstrates that a HUML file can have multiple top-level keys,
+</span><span style="font-style:italic;color:#5c6370;"># implicitly forming a root dictionary.
+</span><span style="color:#e06c75;">user_preferences</span><span>::
+</span><span>  </span><span style="color:#e06c75;">theme</span><span>: </span><span style="color:#98c379;">&quot;solarized_dark&quot;
+</span><span>  </span><span style="color:#e06c75;">font_size_pt</span><span>: </span><span style="color:#d19a66;">12
+</span><span>  </span><span style="color:#e06c75;">show_tooltips</span><span>: </span><span style="color:#d19a66;">true
+</span></code></pre>
+<hr />
+<h1 id="grammar">Grammar</h1>
+<p>This follows an EBNF style notation.</p>
+<ul>
+<li>Lowercase names (e.g. <code>huml_document</code>) are rules that are described in the
+BNF as a sequence of tokens.</li>
+<li>Uppercase names (e.g. <code>STRING</code> or <code>INDENT</code>) are tokens that are produced by
+rules as described in the <a href="https://huml.io/specifications/v0-2-0/#tokenizer">tokenizer</a> section.</li>
+<li><code>|</code> (e.g. <code>alpha | digit</code>) denotes alternatives (OR).</li>
+<li><code>*</code> (e.g. <code>rule*</code>) denotes zero or more repetitions of the preceding element.</li>
+<li><code>+</code> (e.g. <code>rule+</code>) denotes one or more repetitions of the preceding element.</li>
+<li><code>?</code> (e.g. <code>rule?</code>) denotes an optional element (zero or one occurence).</li>
+<li><code>[...]</code> describes a range of characters. For example, <code>['a'..'z']</code> describes
+the lowercase Latin letters a to z.</li>
+<li>Single characters are enclosed in single quotes <code>'</code> and strings are enclosed
+in double quotes <code>"</code>.</li>
+</ul>
+<pre data-lang="ebnf" style="background-color:#282c34;color:#abb2bf;" class="language-ebnf "><code class="language-ebnf" data-lang="ebnf"><span>huml_document = (NEWLINE? huml_version NEWLINE)? NEWLINE? root_value NEWLINE?;
+</span><span>
+</span><span>huml_version = &quot;%HUML &quot; version_string;
+</span><span>version_string = ( alpha | digit | &#39;.&#39; | &#39;_&#39; | &#39;-&#39; )+;
+</span><span>
+</span><span>alpha = [&#39;a&#39;..&#39;z&#39;] | [&#39;A&#39;..&#39;Z&#39;];
+</span><span>digit = [&#39;0&#39;..&#39;9&#39;];
+</span><span>
+</span><span>(* root value needs disambiguating between inline &amp; multiline vectors *)
+</span><span>root_value =
+</span><span>    scalar_key_value ( &quot;, &quot; scalar_key_value )+  (* inline dict, not multiline *)
+</span><span>  | scalar ( &quot;, &quot; scalar )+                      (* inline list, not scalar *)
+</span><span>  | multiline_vector
+</span><span>  | scalar
+</span><span>  | &quot;[]&quot;
+</span><span>  | &quot;{}&quot;
+</span><span>  ;
+</span><span>
+</span><span>scalar =
+</span><span>    STRING
+</span><span>  | FLOAT
+</span><span>  | INT
+</span><span>  | bool
+</span><span>  | null
+</span><span>  ;
+</span><span>
+</span><span>bool = &quot;true&quot; | &quot;false&quot;;
+</span><span>null = &quot;null&quot;;
+</span><span>
+</span><span>(* vectors *)
+</span><span>vector = inline_vector | multiline_vector;
+</span><span>
+</span><span>inline_vector = inline_list | inline_dict;
+</span><span>
+</span><span>multiline_vector = multiline_list | multiline_dict;
+</span><span>
+</span><span>(* lists *)
+</span><span>
+</span><span>inline_list = &quot;[]&quot; | scalar ( &quot;, &quot; scalar )*;
+</span><span>
+</span><span>multiline_list = multiline_list_item multiline_list_items;
+</span><span>
+</span><span>multiline_list_items =
+</span><span>    NEWLINE multiline_list_item multiline_list_items
+</span><span>  | NEWLINE?
+</span><span>  ;
+</span><span>
+</span><span>multiline_list_item =
+</span><span>    &quot;- &quot; scalar
+</span><span>  | &quot;- &quot; INLINE_VECTOR_START inline_vector
+</span><span>  | &quot;- &quot; MULTILINE_VECTOR_START NEWLINE INDENT multiline_vector DEDENT
+</span><span>  ;
+</span><span>
+</span><span>(* dicts *)
+</span><span>
+</span><span>inline_dict = &quot;{}&quot; | scalar_key_value ( &quot;, &quot; scalar_key_value )*;
+</span><span>
+</span><span>multiline_dict = multiline_dict_item multiline_dict_items;
+</span><span>
+</span><span>multiline_dict_items =
+</span><span>    NEWLINE multiline_dict_item multiline_dict_items
+</span><span>  | NEWLINE?
+</span><span>  ;
+</span><span>
+</span><span>multiline_dict_item =
+</span><span>    scalar_key_value
+</span><span>  | dict_key INLINE_VECTOR_START inline_vector
+</span><span>  | dict_key MULTILINE_VECTOR_START NEWLINE INDENT multiline_vector DEDENT
+</span><span>  ;
+</span><span>
+</span><span>scalar_key_value = dict_key &quot;: &quot; scalar;
+</span><span>dict_key = simple_key | STRING;
+</span><span>simple_key = alpha ( alpha | digit | &#39;_&#39; | &#39;-&#39; )*;
+</span></code></pre>
+<h2 id="tokenizer">Tokenizer</h2>
+<p><code>curr_ind</code> is the current indentation level (in spaces).
+<code>curr_ind += 2</code> at each <code>INDENT</code> and <code>curr_ind -= 2</code> at each <code>DEDENT</code>.</p>
+<pre data-lang="ebnf" style="background-color:#282c34;color:#abb2bf;" class="language-ebnf "><code class="language-ebnf" data-lang="ebnf"><span>(* start of line handling: *)
+</span><span>| &#39;\n&#39;, whitespace*, comment                -&gt; skip &amp; continue
+</span><span>| &#39;\n&#39;, &#39; &#39;{curr_ind}                       -&gt; NEWLINE
+</span><span>| &#39;\n&#39;, &#39; &#39;{curr_ind+2}                     -&gt; [NEWLINE, INDENT]
+</span><span>| &#39;\n&#39;, &#39; &#39;{&lt; curr_ind}                     -&gt; [DEDENT (curr_ind - len(m)) / 2 times, NEWLINE]
+</span><span>
+</span><span>(* end of line handling: *)
+</span><span>| whitespace*, comment                      -&gt; skip &amp; continue
+</span><span>
+</span><span>(* dict handling: *)
+</span><span>| &quot;::&quot; (whitespace*, comment)?, &#39;\n&#39;        -&gt; [MULTILINE_VECTOR_START, NEWLINE]
+</span><span>| &quot;:: &quot;                                     -&gt; INLINE_VECTOR_START
+</span><span>
+</span><span>(* numbers: *)
+</span><span>| (&#39;+&#39;|&#39;-&#39;)?, digit+, (&#39;.&#39;, digit+)?, exp   -&gt; FLOAT(float)         # exponent (1e10, 6.022e23, ...)
+</span><span>| (&#39;+&#39;|&#39;-&#39;)?, digit+, &#39;.&#39;, digit*           -&gt; FLOAT(float)         # float (3.14, 1., ...)
+</span><span>| (&#39;+&#39;|&#39;-&#39;)?, digit+                        -&gt; INT(int)             # integer
+</span><span>| (&#39;+&#39;|&#39;-&#39;)?, &quot;0x&quot;, [&#39;0&#39;-&#39;9&#39; &#39;A&#39;-&#39;F&#39; &#39;_&#39;]+  -&gt; INT(int)             # hex
+</span><span>| (&#39;+&#39;|&#39;-&#39;)?, &quot;0o&quot;, [&#39;0&#39;-&#39;7&#39; &#39;_&#39;]+          -&gt; INT(int)             # octal
+</span><span>| (&#39;+&#39;|&#39;-&#39;)?, &quot;0b&quot;, [&#39;0&#39;-&#39;1&#39; &#39;_&#39;]+          -&gt; INT(int)             # binary
+</span><span>| &quot;nan&quot;                                     -&gt; FLOAT(float)         # nan
+</span><span>| (&#39;+&#39;|&#39;-&#39;)?, &quot;inf&quot;                         -&gt; FLOAT(float)         # inf, +inf, -inf
+</span><span>
+</span><span>(* strings *)
+</span><span>| &#39;&quot;&#39; (&quot;\\\&quot;&quot; | [^ &#39;\n&#39; &#39;&quot;&#39; ])* &#39;&quot;&#39;         -&gt; STRING(string)       # additionally, handle escape sequences
+</span><span>| &quot;\&quot;\&quot;\&quot;&quot;, (whitespace*, comment)?, &#39;\n&#39;
+</span><span>    | whitespace{curr_ind}, &quot;\&quot;\&quot;\&quot;&quot;        -&gt; STRING(string[:-1])  # remove last &#39;\n&#39;
+</span><span>    | s:[^ &#39;\n&#39;]*, &#39;\n&#39;                     -&gt; add (s + &#39;\n&#39;) to string
+</span><span>
+</span><span>comment = &quot;# &quot;, [^ &#39;\n&#39;]*
+</span><span>whitespace = &#39; &#39;
+</span><span>digit = [&#39;0&#39;-&#39;9&#39; &#39;_&#39;]
+</span><span>exp = &#39;e&#39; (&#39;+&#39;|&#39;-&#39;)? digit+
+</span></code></pre>
+<p>Escape sequences:</p>
+<ul>
+<li><code>\\</code> -&gt; <code>\</code></li>
+<li><code>\"</code> -&gt; <code>"</code></li>
+<li><code>\b</code> | <code>\n</code> | <code>\r</code> | <code>\f</code> | <code>\t</code> | <code>\v</code> -&gt; <a href="https://huml.io/specifications/v0-2-0/#single-line-strings">corresponding control characters</a></li>
+</ul>
+<h3 id="previous-versions">Previous versions</h3>
+<ul>
+<li><a href="https://huml.io/specifications/v0-1-0/">v0.1.0</a></li>
+</ul>
+ 
+</section>
+
+  </section>
+  
+  <footer class="footer"><a href="https://nadh.in">Kailash Nadh</a> / Website content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/"> CC BY-SA 4.0</a></footer>
+</main>
+<script>
+(() => {
+  document.querySelectorAll('a[data-copy-clipboard]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const pre = [...document.querySelectorAll('pre')]
+        .reverse()
+        .find(el => el.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING);
+      if (pre) {
+        navigator.clipboard.writeText(pre.innerText);
+        const originalText = link.innerText;
+        link.innerText = 'Copied ✓';
+        setTimeout(() => link.innerText = originalText, 2000);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

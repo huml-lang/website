@@ -1,0 +1,64 @@
+.page-playground main.container {
+    max-width: 1300px;
+}
+
+.CodeMirror {
+    min-height: 50vh;
+    font-size: 0.775rem;
+    border-radius: 5px;
+}
+.CodeMirror-gutters {
+    background: none;
+    border: none
+}
+
+.editor {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.controls {
+    margin-bottom: 15px;
+}
+.controls button {
+    font-size: 0.875rem;
+    font-weight: normal;
+    padding: 5px 15px;
+}
+.controls .convert {
+    text-align: right;
+}
+.controls .btn-copy {
+    font-size: 0.875rem;
+    margin-left: 15px;
+    display: inline-block;
+}
+.controls .btn-swap {
+    display: inline-block;
+    margin-right: 15px;
+}
+.controls .btn-copy.disabled {
+    color: #888;
+    cursor: default;
+}
+
+.error-message {
+    color: #d9534f;
+    font-size: 0.875rem;
+    margin-top: 10px;
+}
+
+.note {
+    font-size: 0.675rem;
+    color: #999;
+}
+.cm-s-ayu-mirage .CodeMirror-linenumber {
+    color: #888;
+}
+
+@media (max-width: 800px) {
+    .editor-wrap-right {
+        margin-top: 30px;
+    }
+}

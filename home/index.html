@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>Home</title>
+  
+  
+  
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://huml.io/rss.xml">
+  
+
+  
+  <meta name="description" content="HUML is a simple, strict, serialization language for documents, datasets, and configuration." />
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:image" content="https://huml.io/static/thumb.png?h=3aa3b3a5c8a4070cdfa0">
+  <link rel="shortcut icon" href="https://huml.io/static/favicon.png" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://huml.io/static/base.css?h=3830e68890e9c49262ad" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://huml.io/static/style.css?h=73f78d0cc84bb2ab9d8a" />
+</head>
+
+<body class=" page page-home">
+  
+
+<main class="container main">
+  <header class="header row">
+    <div class="col-5 col-fix">
+      <div class="logo"><a href="https://huml.io"><img src="https://huml.io/static/logo.svg" alt="HUML :: Human-oriented Markup Language" /></a></div>
+    </div>
+    <nav class="col-7 col-fix nav">
+      <input type="checkbox" id="nav-toggle" />
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle nav">☰</label>
+
+      <div class="items">
+        <a href="https:&#x2F;&#x2F;huml.io" >Home</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;specifications&#x2F;v0-2-0&#x2F;" >Specification (v0.2.0)</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;code&#x2F;" >Code</a>
+        <a href="https:&#x2F;&#x2F;huml.io&#x2F;playground&#x2F;" >Playground</a>
+      </div>
+    </nav>
+  </header>
+  <section class="section content">
+    
+<section class="page">
+  <pre data-lang="huml" style="background-color:#282c34;color:#abb2bf;" class="language-huml "><code class="language-huml" data-lang="huml"><span style="font-style:italic;color:#5c6370;"># A sample HUML document.
+</span><span style="color:#e06c75;">website</span><span>::
+</span><span>  </span><span style="color:#e06c75;">hostname</span><span>: </span><span style="color:#98c379;">&quot;huml.io&quot;
+</span><span>  </span><span style="color:#e06c75;">ports</span><span>:: </span><span style="color:#d19a66;">80</span><span>, </span><span style="color:#d19a66;">443 </span><span style="font-style:italic;color:#5c6370;"># Inline list.
+</span><span>  </span><span style="color:#e06c75;">enabled</span><span>: </span><span style="color:#d19a66;">true
+</span><span>  </span><span style="color:#e06c75;">factor</span><span>: </span><span style="color:#d19a66;">3.14
+</span><span>  </span><span style="color:#e06c75;">props</span><span>:: </span><span style="color:#e06c75;">mime_type</span><span>: </span><span style="color:#98c379;">&quot;text/html&quot;</span><span>, </span><span style="color:#e06c75;">encoding</span><span>: </span><span style="color:#98c379;">&quot;gzip&quot; </span><span style="font-style:italic;color:#5c6370;"># Inline dict.
+</span><span>  </span><span style="color:#e06c75;">tags</span><span>:: </span><span style="font-style:italic;color:#5c6370;"># Multi-line list.
+</span><span>    - </span><span style="color:#98c379;">&quot;markup&quot;
+</span><span>    - </span><span style="color:#98c379;">&quot;webpage&quot;
+</span><span>    - </span><span style="color:#98c379;">&quot;schema&quot;
+</span><span>
+</span><span style="color:#e06c75;">haikus</span><span>::
+</span><span>  </span><span style="color:#e06c75;">one</span><span>: &quot;&quot;&quot;
+</span><span style="color:#98c379;">    A quiet language
+</span><span style="color:#98c379;">    Lines fall into their places
+</span><span style="color:#98c379;">    Nothing out of place
+</span><span style="color:#98c379;">  &quot;&quot;&quot;
+</span></code></pre>
+<br />
+<h2 id="motivation">Motivation</h2>
+<ul>
+<li>HUML was primarily born out of the numerous frustrations with YAML, where one easy-to-miss, accidental indentation change can dangerously alter the semantics of a document.</li>
+<li>Other popular markup languages such as TOML and HCL are configuration-oriented. NestedText is an interesting approach, but is too primitive to be suitable for wider use cases. JSON is universal, but lacks comments, does not have a strict form for consistent readability across contexts, and has bracket-matching and formatting woes which make human editing difficult.</li>
+<li>Of these, YAML is the one that comes closest to indicating structure and hierarchy visually.</li>
+</ul>
+<p>Ultimately, a new markup language is a subjective endeavor (it was even in 2001, as evidenced by YAML's original name, <em>Yet Another ...</em>). HUML looks like YAML, but borrows characteristics from many existing languages with the primary focus on enforcing human readability and consistency across contexts.</p>
+<p>Still, why YET another markup language? <strong>Why not?</strong></p>
+<hr />
+<h2 id="goals">Goals</h2>
+<ul>
+<li>Ensure human readability and editability above all else.</li>
+<li>Enable visual comprehension of data structures and hierarchies.</li>
+<li>Avoid footguns and ambiguities in syntax and data types.</li>
+<li>Provide as few ways as possible—preferably one—of representing something.</li>
+<li>Maintain strict formatting for uniformity, eliminating the need for formatters.</li>
+</ul>
+<p><br /><a href="/specifications/v0-2-0">Read the specs →</a></p>
+ 
+</section>
+
+  </section>
+  
+  <footer class="footer"><a href="https://nadh.in">Kailash Nadh</a> / Website content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/"> CC BY-SA 4.0</a></footer>
+</main>
+<script>
+(() => {
+  document.querySelectorAll('a[data-copy-clipboard]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const pre = [...document.querySelectorAll('pre')]
+        .reverse()
+        .find(el => el.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING);
+      if (pre) {
+        navigator.clipboard.writeText(pre.innerText);
+        const originalText = link.innerText;
+        link.innerText = 'Copied ✓';
+        setTimeout(() => link.innerText = originalText, 2000);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
