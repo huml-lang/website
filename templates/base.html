@@ -66,10 +66,10 @@
 
 <main class="container main">
   <header class="header row">
-    <div class="col-5 col-fix">
+    <div class="col-3 col-fix">
       <div class="logo"><a href="{{ get_url(path='/') }}"><img src="{{ get_url(path='/static/logo.svg') }}" alt="{{ config.extra.default_title }}" /></a></div>
     </div>
-    <nav class="col-7 col-fix nav">
+    <nav class="col-9 col-fix nav">
       <input type="checkbox" id="nav-toggle" />
       <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle nav">☰</label>
 
@@ -78,6 +78,7 @@
         {{ macros::page_link(name="Specification (v0.2.0)", path="@/specifications/v0.2.0.md") }}
         {{ macros::page_link(name="Code", path="@/code.md") }}
         {{ macros::page_link(name="Playground", path="@/playground.md") }}
+        <a href="https://github.com/huml-lang" target="_blank">GitHub</a>
       </div>
     </nav>
   </header>
