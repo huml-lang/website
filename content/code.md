@@ -16,6 +16,7 @@ This page contains links to various HUML-related resources such as parser implem
 | Java        | [@CretanBull/huml4j](https://github.com/CretanBull/huml4j)                   |
 | Javascript  | [@huml-lang/huml-js](https://github.com/huml-lang/huml-js)                   |
 | Lua         | [@Kyle-McDangersword/luahuml](https://github.com/Kyle-McDangersword/luahuml) |
+| Nim         | [@w3Abhishek/nimhuml](https://github.com/w3Abhishek/nimhuml)                 |
 | OCaml       | [@nikochiko/huml-ml](https://github.com/nikochiko/huml-ml)                   |
 | Python      | [@huml-lang/pyhuml](https://github.com/huml-lang/pyhuml)                     |
 | Ruby        | [@djbender/hummel](https://github.com/djbender/hummel)                       |
