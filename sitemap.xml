@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://huml.io/</loc>
+    </url>
+    <url>
+        <loc>https://huml.io/code/</loc>
+    </url>
+    <url>
+        <loc>https://huml.io/example/</loc>
+    </url>
+    <url>
+        <loc>https://huml.io/examples/</loc>
+    </url>
+    <url>
+        <loc>https://huml.io/home/</loc>
+    </url>
+    <url>
+        <loc>https://huml.io/playground/</loc>
+    </url>
+    <url>
+        <loc>https://huml.io/specifications/v0-1-0/</loc>
+    </url>
+    <url>
+        <loc>https://huml.io/specifications/v0-2-0/</loc>
+    </url>
+</urlset>
