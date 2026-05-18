@@ -11,6 +11,7 @@ This page contains links to various HUML-related resources such as parser implem
 
 | Language    | Library                                                                      |
 | ----------- | ---------------------------------------------------------------------------- |
+| Dotnet      | [@primeBeri/huml-dotnet](https://github.com/primeBeri/huml-dotnet)           |
 | Elixir      | [@rahultumpala/huml-ex](https://github.com/rahultumpala/huml-ex)             |
 | Go          | [@huml-lang/go-huml](https://github.com/huml-lang/go-huml)                   |
 | Java        | [@CretanBull/huml4j](https://github.com/CretanBull/huml4j)                   |
@@ -25,24 +26,25 @@ This page contains links to various HUML-related resources such as parser implem
 | Zig         | [@t0mri/huml](https://codeberg.org/t0mri/huml)                               |
 | Zig         | [@~sphericalkat/humlz](https://git.sr.ht/~sphericalkat/humlz)                |
 
-
-
 ## Plugins and extensions
 
-| Name                                                              | Description                                         |
-| ----------------------------------------------------------------- | --------------------------------------------------- |
-| [huml-vscode](https://github.com/huml-lang/huml-vscode)           | Syntax highlighter extension for Visual Studio Code |
-| [huml-sublime](https://github.com/huml-lang/huml-sublime)         | Syntax highlighter for Sublime Text 3               |
-| [codemirror5-huml](https://github.com/huml-lang/codemirror5-huml) | Syntax highlighter mode for Code Mirror 5           |
-| [vim-huml](https://github.com/huml-lang/vim-huml)                 | Syntax highlighter plugin for vim                   |
-| [huml-lsp](https://github.com/Fred-Milhorn/huml-language-server)  | Language Server Protocol for HUML                   |
+| Name                                                                                                            | Description                                            |
+| --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| [huml-vscode](https://github.com/huml-lang/huml-vscode)                                                         | Syntax highlighter extension for Visual Studio Code    |
+| [huml-sublime](https://github.com/huml-lang/huml-sublime)                                                       | Syntax highlighter for Sublime Text 3                  |
+| [codemirror5-huml](https://github.com/huml-lang/codemirror5-huml)                                               | Syntax highlighter mode for Code Mirror 5              |
+| [vim-huml](https://github.com/huml-lang/vim-huml)                                                               | Syntax highlighter plugin for vim                      |
+| [huml-lsp](https://github.com/Fred-Milhorn/huml-language-server)                                                | Language Server Protocol for HUML                      |
+| [huml-notepad++](https://github.com/notepad-plus-plus/userDefinedLanguages/blob/master/UDLs/HUML.Huml-Lang.xml) | Syntax highlighter for Notepad++. Downloadable XML UDL |
 
 ## SDKs
+
 | Name                                    | Description                                               |
 | --------------------------------------- | --------------------------------------------------------- |
 | [koanf](https://github.com/knadh/koanf) | Configuration management library for Go with HUML support |
 
 ## Tools
-| Name                                | Description                                              |
-| ----------------------------------- | -------------------------------------------------------- |
-| [hq](https://github.com/rhnvrm/hq)  | A jq/yq-like command-line processor for HUML             |
+
+| Name                               | Description                                  |
+| ---------------------------------- | -------------------------------------------- |
+| [hq](https://github.com/rhnvrm/hq) | A jq/yq-like command-line processor for HUML |
